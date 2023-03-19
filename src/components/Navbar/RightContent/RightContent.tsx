@@ -6,6 +6,7 @@ import { auth } from "@/Firebase/clientapp";
 import { User } from "firebase/auth";
 import ActionIcons from "./Icon";
 import UserMenu from "../UserMenu";
+
 type RightContentProps = {
     User?:User | null
 };
@@ -19,6 +20,7 @@ const RightContent:React.FC<RightContentProps> = ({User}) => {
 <Flex justify="center" align="center">
     {User?<ActionIcons/> : <AuthButton /> }
     <UserMenu User={User}/>
+  
             
         </Flex>
       
