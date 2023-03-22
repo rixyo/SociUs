@@ -12,7 +12,7 @@ type RightContentProps = {
 };
 
 const RightContent:React.FC<RightContentProps> = ({User}) => {
-    const [signOut, loading, error] = useSignOut(auth);
+  
     
     return(
         <>

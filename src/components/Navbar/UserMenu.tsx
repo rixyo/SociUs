@@ -8,9 +8,11 @@ import { CgProfile} from "react-icons/cg"
 import {MdOutlineLogin} from "react-icons/md"
 import { useSignOut } from 'react-firebase-hooks/auth';
 import { auth } from '@/Firebase/clientapp';
-import {useSetRecoilState} from "recoil"
+import {useResetRecoilState, useSetRecoilState} from "recoil"
 import { authModalState } from '@/atoms/authModalAtom';
 import Directory from './Directory/Directory';
+import { teamState } from '@/atoms/teamAtom';
+import { useRouter } from 'next/router';
 type UserMenuProps = {
     User?:User | null
     
@@ -18,7 +20,19 @@ type UserMenuProps = {
 
 const UserMenu:React.FC<UserMenuProps> = ({User}) => {
     const [signOut, loading, error] = useSignOut(auth);
+    const resetCommunityState=useResetRecoilState(teamState)
     const setAuthModalState=useSetRecoilState(authModalState)
+    const router = useRouter();
+    const Logout=async()=>{
+      const success = await signOut();
+      if (success) {
+        alert('You are sign out');
+      }
+      resetCommunityState
+      router.push('/');
+      
+
+    }
 
     return(
         <Menu>
@@ -70,12 +84,7 @@ const UserMenu:React.FC<UserMenuProps> = ({User}) => {
   <Directory />
  
   <MenuItem fontSize="10pt" fontWeight={700} _hover={{bg:"blue.500",color:"white"}}
-   onClick={async () => {
-      const success = await signOut();
-      if (success) {
-        alert('You are sign out');
-      }
-    }}
+   onClick={Logout}
   >
   <Flex align="center">
       <Icon  as={MdOutlineLogin} fontSize={20}  mr={2}/>

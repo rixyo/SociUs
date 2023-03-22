@@ -1,10 +1,12 @@
 import { Input, Button, Flex ,Text} from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { authModalState } from '@/atoms/authModalAtom';
 import { useSetRecoilState } from 'recoil';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { auth } from '@/Firebase/clientapp';
+import { auth, fireStore } from '@/Firebase/clientapp';
 import { FIREBASE_ERRORS } from '@/Firebase/errors';
+import { User } from 'firebase/auth';
+import { addDoc, collection } from 'firebase/firestore';
 
 
 const Signup:React.FC = () => {
@@ -14,21 +16,31 @@ const Signup:React.FC = () => {
         password:'',
         confirmPassword:''
     })
+   
     const [error,setError]=useState("")
     const [
         createUserWithEmailAndPassword,
-        user,
+        userCred,
         loading,
         authError,
       ] = useCreateUserWithEmailAndPassword(auth);
     const onSubmit=(e:React.ChangeEvent<HTMLFormElement>)=>{
         e.preventDefault()
+
+
         if(error) setError('')
+        const password=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/
+        if(!password.test(singupForm.password)||!password.test(singupForm.confirmPassword)){
+            setError("The password must be at least 6 characters long, at least one lowercase letter,least one uppercase letter,atleast one digit,at least one special character (such as @, $, !, %, *, ?, or &)")
+            return
+        }
         if(singupForm.password!==singupForm.confirmPassword){
             setError("Passwords donot match")
             return
       
         }
+       
+      
         createUserWithEmailAndPassword(singupForm.email,singupForm.password)
        
 
@@ -38,9 +50,19 @@ const Signup:React.FC = () => {
             ...pre,
             [e.target.name]: e.target.value
         }))
-
+    }
+    const createUserDoc=async(user:User)=>{
+        await addDoc(collection(fireStore,"users"),JSON.parse(JSON.stringify(user)))
 
     }
+    useEffect(()=>{
+        if(userCred){
+            createUserDoc(userCred.user)
+        }
+
+    },[userCred])
+    
+
     
     return(
         <form onSubmit={onSubmit}>
@@ -90,6 +112,7 @@ const Signup:React.FC = () => {
            bgColor='gray.50'
            onChange={onChange}
            />
+          
            <Input
            required
            type='password'
@@ -113,6 +136,15 @@ const Signup:React.FC = () => {
            bgColor='gray.50'
            onChange={onChange}
            />
+           <Text color="red.500" fontSize="9pt"> Password Hint:
+           <li>The password must be at least 6 characters long</li>
+           <li>least one uppercase letter</li>
+           <li>atleast one digit</li>
+           <li>at least one special character (such as @, $, !, %, *, ?, or &)</li>
+           <li>at least one lowercase letter</li>
+           
+           
+           </Text>
           {(error || authError) &&( 
           <Text textAlign="center" color="red.500" fontSize="10pt">
             {error || 

@@ -1,16 +1,29 @@
+
+import { auth, fireStore } from '@/Firebase/clientapp';
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Box, Divider,Text, Input, Stack, Checkbox, Flex, Icon } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { doc,runTransaction, serverTimestamp, setDoc } from 'firebase/firestore';
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { BsFillEyeFill, BsFillPersonFill } from "react-icons/bs";
-import { HiLockClosed } from "react-icons/hi";
+import { HiLockClosed } from "react-icons/hi"
+
 type CreateCommunityModelProps = {
     open:boolean;
     handleClose:()=>void
 };
 
 const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose}) => {
+  const router = useRouter()
+  const [user]=useAuthState(auth)
+ 
     const [teamName,setTeamName]=useState('')
     const [characterRemaning,setCharacterRemaing]=useState(21)
     const [teamType,setTeamType]=useState("private")
+    const [nameError,setNameError]=useState("")
+    const [loading,setLoading]=useState(false)
+    const [joinPassword,setJoinPassword]=useState("")
+ 
     const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
         if(e.target.value.length > 21) return ;
         setTeamName(e.target.value)
@@ -18,6 +31,74 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
     }
     const onTeamChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
         setTeamType(e.target.name)
+
+    }
+    const handlePassword=(e:React.ChangeEvent<HTMLInputElement>)=>{
+      setJoinPassword(e.target.value)
+      
+    }
+    const createTeam=async()=>{
+      if(nameError) setNameError('')
+      const format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/
+     
+    
+      if(format.test(teamName)|| teamName.length<3 ){
+        setNameError(
+          "Team name must be between 3–21 characters, and can only contain letters, numbers, or underscores."
+        );return
+      
+     
+
+      }
+      setLoading(true)
+      try {
+        const teamDocRef=doc(fireStore,"teams",teamName)
+        await runTransaction(fireStore, async(transaction)=>{
+          const teamDoc=await transaction.get(teamDocRef)
+          if(teamDoc.exists()){
+            throw new Error(`Sorry, /tm ${teamName} is taken. Try another.`); 
+          }
+          const password=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/
+          if(teamType==="private"){
+            if(!password.test(joinPassword)){
+              throw new Error("The password must be at least 6 characters long,c at least one lowercase letter,least one uppercase letter,atleast one digit,at least one special character (such as @, $, !, %, *, ?, or &)");
+      
+              }
+
+          }
+         
+         transaction.set(teamDocRef,{
+            Name:teamName,
+            creatorId:user?.uid,
+            createdAt:serverTimestamp(),
+            numberOfMembers:1,
+            privacyType:teamType,
+            members:[user?.uid],
+            joinKey:joinPassword
+    
+          })
+          transaction.set(doc(fireStore,`users/${user?.uid}/teamSnippets`,teamName),{
+            teamId:teamName,
+            isModerator:true,
+
+          })
+        })
+      
+          await   router.push(`/tm/${teamName}`)
+          router.reload()
+  
+        
+        
+      } catch (error:any) {
+        console.log(`handle create Team error ${error}`)
+        setNameError(error.message)
+        
+      }
+      
+      setLoading(false)
+      
+    
+
 
     }
     return (
@@ -37,6 +118,8 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
                 <Text position="relative" top="30px" left="10px"  color="gray.400">tm/</Text>
                 <Input value={teamName} position="relative" size="sm" pl="35px" onChange={handleChange} />
                 <Text color={characterRemaning===0?"red":"gray.500"} fontSize="9pt">{characterRemaning} character remaning</Text>
+                {nameError && <Text fontSize="9pt" color="red" pt={1}>{nameError}
+                  </Text>}
                 <Box>
                     <Text fontWeight={600} fontSize={15} marginY={4}>Team Type</Text>
                     <Stack spacing={2}>
@@ -53,11 +136,40 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
                       <Flex align="center">
                       <Icon as={HiLockClosed} color="gray.500" mr={2} />
                         <Text fontSize="10pt" mr={1}>Private</Text>
-                       {teamType==="private" &&
-                       <Text fontSize="10pt" color="gray.500" pt={1}>Only approval team member will be able to post,comment & view in this team activity </Text>
-                       } 
+                  
                       </Flex>
                       </Checkbox>
+                      {teamType==="private" &&
+                       <>
+                        <Text fontSize="10pt" color="gray.500" pt={1}>Only approval team member will be able to post,comment & view in this team activity </Text>
+                        <Input
+           required
+           type='password'
+           placeholder='password'
+          value={joinPassword}
+           mb={2}
+           fontSize="10pt"
+           _placeholder={{color:'gray.500'}}
+           _hover={{
+            bg:'white',
+            border:'1px solid',
+            borderColor:"blue.500"
+           }}
+           _focus={{
+            outline:"none",
+            bg:'white',
+            border:'1px solid',
+            borderColor:"blue.500"
+
+           }}
+           bgColor='gray.50'
+           onChange={handlePassword}
+           />
+            
+                       </>
+                      
+                       
+                       } 
                       <Checkbox name="restricted"isChecked={teamType==="restricted"} onChange={onTeamChange}>
                       <Flex align="center">
                       <Icon as={BsFillEyeFill} color="gray.500" mr={2} />
@@ -82,8 +194,8 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
         <Button
           variant="solid"
           height="30px"
-          //onClick={handleCreateTeam}
-          //isLoading={loading}
+        onClick={createTeam}
+          isLoading={loading}
         >
           Create Team
         </Button>
