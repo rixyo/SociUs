@@ -128,6 +128,7 @@ const JoinTeamModal:React.FC<JoinTeamModalProps> = ({joinedMember,teamData,joinK
               mb={2}
               mt={2}
               onClick={joinTeam}
+             
         
            
              

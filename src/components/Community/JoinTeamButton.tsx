@@ -23,7 +23,7 @@ const JoinTeamButton: React.FC<AuthButtonsProps> = ({isJoined,joinedMember,teamD
   const [creatorId,setCreatorId]=useState("")
   const[customError,setCustomError]=useState("")
   const [teamStateValue,setTeamStateValue]=useRecoilState(teamState)
-  const [loading,setLoading]=useState(true)
+  const [loading,setLoading]=useState(false)
  
   const [user]=useAuthState(auth)
   const router = useRouter()
@@ -101,13 +101,12 @@ const JoinTeamButton: React.FC<AuthButtonsProps> = ({isJoined,joinedMember,teamD
     }
     if(isJoined){
       leaveTeam()
-      router.reload()
+      
      router.push("/")
+     //router.reload()
 
     }
-    if(!isJoined){
-      setTeamModalState ({ open: true, view:"join"});
-    }
+   
 
   }
 

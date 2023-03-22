@@ -10,16 +10,19 @@ const Navbar:React.FC= () => {
     
     
     return(
-    <Flex bg="white" height="44px" padding="6px 12px" marginTop="20px" justifyContent={{md:"space-between"}} >
-        <Flex width={{base:"40px",md:"auto"}} mr={{base:0,md:2}} >
-           <Image src="/LOGO.png" height="50px" width="100px"  display={{ base: "none", md: "unset" }}  />
+    <Flex bg="white" height="44px" padding="6px 12px" marginTop="20px" justifyContent={{md:"space-between"}}  >
+        <Flex width={{base:"40px",md:"auto"}} mr={{base:0,md:2}}  >
+           <Image src="/LOGO.png" height="35px" width="100px"  display={{ base: "none", md: "unset" }} />
         </Flex>
         
         <Flex >
           
             <SearchInput User={user}  />
-            <RightContent User={user}/>
+            
 
+        </Flex>
+        <Flex>
+        <RightContent User={user}/>
         </Flex>
      
 </Flex>

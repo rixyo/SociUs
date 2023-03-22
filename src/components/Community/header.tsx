@@ -5,7 +5,6 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { FaLessThan } from 'react-icons/fa';
 import {GiDove} from "react-icons/gi"
 import useTeamData from '../hooks/useTeamData';
 import JoinTeamModal from '../Modal/JoinTeam/JoinTeamModal';
@@ -19,7 +18,7 @@ type headerProps = {
 
 const Header:React.FC<headerProps> = ({teamData}) => {
 
-   const [user]=useAuthState(auth)
+   //const [user]=useAuthState(auth)
    const [privacy,setPrivacy]=useState("")
    const [joinKey,setJoinKey]=useState("")
    const [joinedMember, setJoinedMember] = useState<string[]>([]);
@@ -44,11 +43,8 @@ const Header:React.FC<headerProps> = ({teamData}) => {
              const q=query(collection(fireStore,"teams"),where("Name","==",`${router.query.teamId}`))
              const querySnapshot = await getDocs(q);
              querySnapshot.forEach((doc) => {
-                 // doc.data() is never undefined for query doc snapshots
+            
                   const teamSnippets=doc.data()
-                 console.log(teamSnippets.privacyType)
-                 console.log(teamSnippets.joinKey)
-                 console.log(teamSnippets.members)
                  setJoinKey(teamSnippets.joinKey)
                  setPrivacy(teamSnippets.privacyType)
                  setJoinedMember(teamSnippets.members)
