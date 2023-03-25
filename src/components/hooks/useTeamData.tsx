@@ -5,33 +5,31 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalAtom";
-
+import { useRouter } from "next/router";
 const useTeamData= () => {
+    //const router=useRouter()
 
     const [user]=useAuthState(auth)
     const setAuthModalState = useSetRecoilState(authModalState);
 
-  const [creatorId,setCreatorId]=useState("")
     const [teamStateValue,setTeamStateValue]=useRecoilState(teamState)
-    const [loading,setLoading]=useState(false)
-    const [customError,setCustomError]=useState('')
-    const onJoinOrLeaveTeam=(teamData:Team,isJoined:boolean)=>{
+    const [loading,setLoading]=useState<boolean>(false)
+    const [customError,setCustomError]=useState<string>('')
+    const onJoinOrLeaveTeam=(teamData:Team,isJoined:boolean,creatorId:string)=>{
        
         if (!user) {
             setAuthModalState({ open: true, view: "login" });
             return;
           }
-
-        if(isJoined){
+        if(isJoined && creatorId!==user.uid){
             leaveTeam(teamData)
             return
+        }else{
+            setCustomError("Admin cannot leave the team")
         }
        
      joinTeam(teamData)
 
-    
-      
-        
 
     }
     
@@ -60,6 +58,7 @@ const useTeamData= () => {
         getMySnippet()
     },[user])
     const joinTeam=async(teamData:Team)=>{
+       
         try {
            
                 const betch=writeBatch(fireStore)
@@ -70,8 +69,9 @@ const useTeamData= () => {
             betch.set(doc(fireStore,`users/${user?.uid}/teamSnippets`,teamData.id),newSnippet)
            
             betch.update(doc(fireStore,"teams",teamData.id),{
-                numberOfMembers: increment(1),
-                members: arrayUnion(user?.uid)
+                
+                members: arrayUnion(user?.uid),
+                
             })
            await betch.commit()
            setTeamStateValue(prev=>({
@@ -91,38 +91,27 @@ const useTeamData= () => {
             const snippet= (await snippetDocs).docs.map(doc=>({
                 ...doc.data()
             }))
-            snippet.map(e=>{
-              setCreatorId(e.creatorId)
-            })
          
-          
-      
+         
             batch.delete(
               doc(fireStore, `users/${user?.uid}/teamSnippets/${teamData.id}`)
             );
-      
-            batch.update(doc(fireStore, "teams", teamData.id), {
-              numberOfMembers: increment(-1),
-              members:arrayRemove(user?.uid)
-            });
-            
-            if(user?.uid===creatorId){
-                setCustomError("Admin canot leave the team"); return;
+           
+                batch.update(doc(fireStore, "teams", teamData.id), {
+                    members:arrayRemove(user?.uid)
+                  });
 
-            } 
-         
+            
+      
                 await batch.commit();
 
-            
-      
-         
-      
             setTeamStateValue((prev) => ({
               ...prev,
               mySnippets: prev.mySnippets.filter(
                 (item) => item.teamId!== teamData.id
               ),
             }));
+          
 
     } catch (error:any) {
         console.log("leaveCommunity error", error);
@@ -135,7 +124,8 @@ const useTeamData= () => {
         teamStateValue,
         onJoinOrLeaveTeam,
         loading,
-        customError
+        customError,
+        setCustomError
     }
 }
 

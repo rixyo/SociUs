@@ -1,30 +1,31 @@
 import { Team } from '@/atoms/teamAtom';
-import { auth, fireStore } from '@/Firebase/clientapp';
+import { fireStore } from '@/Firebase/clientapp';
 import { Box, Button, Flex, Icon,Image,List,Text} from '@chakra-ui/react';
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { useRouter } from 'next/router';
+
+import  { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
+
 import {GiDove} from "react-icons/gi"
 import useTeamData from '../hooks/useTeamData';
 import JoinTeamModal from '../Modal/JoinTeam/JoinTeamModal';
 import JoinTeamButton from './JoinTeamButton';
-
-
-
 type headerProps = {
     teamData: Team
 };
 
+
+
 const Header:React.FC<headerProps> = ({teamData}) => {
 
-   //const [user]=useAuthState(auth)
-   const [privacy,setPrivacy]=useState("")
-   const [joinKey,setJoinKey]=useState("")
-   const [joinedMember, setJoinedMember] = useState<string[]>([]);
 
- 
-  
+   //const [user]=useAuthState(auth)
+   const [privacy,setPrivacy]=useState<string>("")
+   const [joinKey,setJoinKey]=useState<string>("")
+   const [joinedMember, setJoinedMember] = useState<string[]>([]);
+   const [creatorId,setCreatorId]=useState<string>('')
+
+
     const {teamStateValue,
         onJoinOrLeaveTeam,
         loading,
@@ -47,6 +48,7 @@ const Header:React.FC<headerProps> = ({teamData}) => {
                   const teamSnippets=doc.data()
                  setJoinKey(teamSnippets.joinKey)
                  setPrivacy(teamSnippets.privacyType)
+                 setCreatorId(teamSnippets.creatorId)
                  setJoinedMember(teamSnippets.members)
                
                });   
@@ -57,9 +59,6 @@ const Header:React.FC<headerProps> = ({teamData}) => {
          },[`${router.query.teamId}`])
 
       }
-
-  
-
  
     return (
         <>
@@ -92,22 +91,22 @@ const Header:React.FC<headerProps> = ({teamData}) => {
                     height="30px"
                     pr={6}
                     pl={6}
-                    onClick={() => onJoinOrLeaveTeam(teamData, isJoined)}
+                    onClick={() => onJoinOrLeaveTeam(teamData, isJoined,creatorId)}
                     isLoading={loading}
                   >
                     {isJoined ? "Joined" : "Join"}
                   </Button >
                   }
-                   {customError &&<Text fontSize="10pt" mt={2} fontWeight={600} color="red.500">
+                   {customError &&<Text fontSize="9pt" mt={2} fontWeight={600} color="red">
                     {customError}
                     </Text>}
 
-                    <JoinTeamModal privacy={privacy} joinedMember={joinedMember}   teamData={teamData} joinKey={joinKey}  />
+                    <JoinTeamModal privacy={privacy} joinedMember={joinedMember}   teamData={teamData} joinKey={joinKey}   />
                    
                     {privacy==="private"
                      &&(
                         <>
-                        <JoinTeamButton isJoined={isJoined} joinedMember={joinedMember} teamData={teamData} />
+                        <JoinTeamButton isJoined={isJoined} joinedMember={joinedMember} teamData={teamData} creatorId={creatorId} />
                         </>
 
                      )
@@ -133,4 +132,5 @@ const Header:React.FC<headerProps> = ({teamData}) => {
         </>
     )
 }
+
 export default Header;

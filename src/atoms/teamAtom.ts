@@ -4,12 +4,12 @@ import {atom} from "recoil"
 export interface Team{
     id:string,
     creatorId:string,
-    numbersOfMember: number,
     privacyType: "public" | "private" | "restricted",
     createdAt?:Timestamp,
     imageUrl?:string,
     members:string[],
-    joinKey?:string
+    joinKey?:string,
+
 }
 export interface TeamSnippet{
     teamId:string,

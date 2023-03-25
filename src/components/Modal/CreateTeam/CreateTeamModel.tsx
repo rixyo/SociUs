@@ -17,17 +17,17 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
   const router = useRouter()
   const [user]=useAuthState(auth)
  
-    const [teamName,setTeamName]=useState('')
+    const [teamName,setTeamName]=useState<string>('')
     const [characterRemaning,setCharacterRemaing]=useState(21)
-    const [teamType,setTeamType]=useState("private")
-    const [nameError,setNameError]=useState("")
-    const [loading,setLoading]=useState(false)
-    const [joinPassword,setJoinPassword]=useState("")
+    const [teamType,setTeamType]=useState<string>("private")
+    const [nameError,setNameError]=useState<string>("")
+    const [loading,setLoading]=useState<boolean>(false)
+    const [joinPassword,setJoinPassword]=useState<string>("")
  
     const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
-        if(e.target.value.length > 21) return ;
+        if(e.target.value.length > 22) return ;
         setTeamName(e.target.value)
-        setCharacterRemaing(21 - e.target.value.length)
+        setCharacterRemaing(22 - e.target.value.length)
     }
     const onTeamChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
         setTeamType(e.target.name)
@@ -44,11 +44,9 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
     
       if(format.test(teamName)|| teamName.length<3 ){
         setNameError(
-          "Team name must be between 3–21 characters, and can only contain letters, numbers, or underscores."
+          "Team name must be between 3–22 characters, and can only contain letters, numbers, or underscores."
         );return
       
-     
-
       }
       setLoading(true)
       try {
@@ -71,7 +69,6 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
             Name:teamName,
             creatorId:user?.uid,
             createdAt:serverTimestamp(),
-            numberOfMembers:1,
             privacyType:teamType,
             members:[user?.uid],
             joinKey:joinPassword
@@ -84,6 +81,8 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
           })
         })
       
+          
+          
           await   router.push(`/tm/${teamName}`)
           router.reload()
   

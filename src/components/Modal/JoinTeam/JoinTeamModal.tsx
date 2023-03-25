@@ -16,7 +16,8 @@ type JoinTeamModalProps = {
    privacy:string,
    teamData:Team,
    joinKey:string,
-   joinedMember: string[]
+   joinedMember: string[],
+ 
 
 };
 
@@ -24,7 +25,7 @@ const JoinTeamModal:React.FC<JoinTeamModalProps> = ({joinedMember,teamData,joinK
   const [modalState,setModalState]=useRecoilState (joinModalState)
   const [teamStateValue,setTeamStateValue]=useRecoilState(teamState)
   const router = useRouter()
-  const [password,setPassword]=useState("")
+  const [password,setPassword]=useState<string>("")
     const [loading,setLoading]=useState<boolean>(true)
     const [user]=useAuthState(auth)
     const joinTeam=async()=>{
@@ -60,23 +61,21 @@ const JoinTeamModal:React.FC<JoinTeamModalProps> = ({joinedMember,teamData,joinK
       
   }
     const handleClose=async()=>{
-      if(joinedMember.length>0){
-        joinedMember.map((item)=>{
-          if(item===user?.uid){
-            setModalState(prev=>({
-              ...prev,
-              open:false
-            }))
-          }else{
-            setModalState({open:true,view:"join"})
-          }
-        })
-      }
-  
-   
-      
+     const isJoined= joinedMember.find(index=>{
+        index===user?.uid
+      })
+      if(isJoined){
+        setModalState(prev=>({
+          ...prev,
+          open:false
+        }))
 
-     
+      }else{
+        setModalState({open:true,view:"join"})
+
+      }
+
+  
       }
 
     return (

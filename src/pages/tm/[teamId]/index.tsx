@@ -6,10 +6,11 @@ import { Team } from '@/atoms/teamAtom';
 import safeJsonStringify from "safe-json-stringify"
 import TeamNotFound from '@/components/Community/notFound';
 import Header from '@/components/Community/header';
-import PageComponent from '@/components/Layout/PageComponent';
+import PageComponent from '@/components/Layout/PageContent';
 import CreatePostLink from '@/components/Community/CreatePostLink';
 import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import Posts from '@/components/Posts/Posts';
 
 
 
@@ -30,17 +31,13 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
       if(teamId){
         useEffect(()=>{
             async function getTeamInfo(){
-               
-            
              const q=query(collection(fireStore,"teams"),where("Name","==",`${router.query.teamId}`))
              const querySnapshot = await getDocs(q);
              querySnapshot.forEach((doc) => {
-                 
                   const teamSnippets=doc.data()
                   setPrivacyType(teamSnippets.privacyType)
                  setJoinedMember(teamSnippets.members)
                  
-                
                
                });   
             }
@@ -73,6 +70,7 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
       <PageComponent>
       <>
       <CreatePostLink/>
+      <Posts />
       </>
       <>
       <div>Hello</div>

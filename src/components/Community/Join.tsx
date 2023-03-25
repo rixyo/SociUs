@@ -19,13 +19,14 @@ const Join: React.FC<JoinTeamProps> = ({teamData,joinKey}) => {
 const [teamStateValue,setTeamStateValue]=useRecoilState(teamState)
 
 
-  const [password, setPassword] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [customError,setCustomError]=useState("")
+  const [password, setPassword] = useState<string>("");
+  const [success, setSuccess] = useState<boolean>(false);
+  const [customError,setCustomError]=useState<string>("")
   const [user]=useAuthState(auth)
   
   const onSubmit = async() => {
     if(joinKey===password){
+      setSuccess(true)
         try {
            
             const betch=writeBatch(fireStore)
@@ -50,6 +51,7 @@ const [teamStateValue,setTeamStateValue]=useRecoilState(teamState)
         console.log("Faild to join",error.message)
         setCustomError(error.message)
       }
+      setSuccess(false)
 
     }
     
