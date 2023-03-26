@@ -12,6 +12,8 @@ import { useRouter } from 'next/router';
 import { addDoc, collection, serverTimestamp, Timestamp, updateDoc } from 'firebase/firestore';
 import { fireStore, storage } from '@/Firebase/clientapp';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import Poll from './PostForm/Poll';
+import PostLink from './PostForm/Link';
 
 type NewPostFormProps = {
   user:User
@@ -51,7 +53,8 @@ const NewPostForm:React.FC<NewPostFormProps> = ({user}) => {
     const [customError,setCustomError]=useState<string>("")
     const [textInputs,selectedTextInputs]=useState({
       title:"",
-      body:""
+      body:"",
+      url:""
     })
     const [selectedFile,setSelectedFile]=useState<string>("")
     const [loading,setLoading]=useState<boolean>(false)
@@ -84,6 +87,12 @@ else{
       const downLoadUrl=await getDownloadURL(imageRef)
       await updateDoc(postDocRef,{
         imageUrl:downLoadUrl
+      })
+    }
+    if(textInputs.url){
+  
+      await updateDoc(postDocRef,{
+        linkUrl:textInputs.url
       })
     }
 } catch (error:any) {
@@ -134,6 +143,12 @@ router.back()
             
                {selectedTab==="Images & Video" &&
                <ImageUpload selectedFile={selectedFile} onSelctedImage={onSelectedImage} setSelectedTab={setSelectedTab} setSelectedFile={setSelectedFile}   />
+               }
+                 {selectedTab==="Poll" &&
+             <Poll />
+               }
+               {selectedTab==="Link" &&
+               <PostLink onChange={onTextChange} textInputs={textInputs} loading={loading} setSelectedTab={setSelectedTab}/>
                }
              
               

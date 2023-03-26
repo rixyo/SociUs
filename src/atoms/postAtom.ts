@@ -5,16 +5,22 @@ export interface Post{
     teamId:string,
     creatorId:string,
     creatorDisplayName:string,
-
     title:string,
     body:string,
     imageUrl?:string,
     numberOfComments:number,
     voteStatus:number,
    teamImageUrl?:string,
-    createdAt: Timestamp
+    createdAt: Timestamp,
+    linkUrl?:string,
+  
 
 }
+type Question={
+    title:string,
+}
+
+
 interface PostState{
     selectedPost: Post|null,
     posts:Post[]

@@ -4,7 +4,8 @@ import React from 'react';
 type TextInputProps = {
     textInputs:{
         title:string,
-        body:string
+        body:string,
+        url?:string
     },
     onChange:(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>void,
     handleCreatePost:()=>void,
