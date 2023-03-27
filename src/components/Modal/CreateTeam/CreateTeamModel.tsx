@@ -1,7 +1,7 @@
 
 import { auth, fireStore } from '@/Firebase/clientapp';
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Box, Divider,Text, Input, Stack, Checkbox, Flex, Icon } from '@chakra-ui/react';
-import { doc,runTransaction, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc,runTransaction, serverTimestamp} from 'firebase/firestore';
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -31,7 +31,6 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
     }
     const onTeamChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
         setTeamType(e.target.name)
-
     }
     const handlePassword=(e:React.ChangeEvent<HTMLInputElement>)=>{
       setJoinPassword(e.target.value)

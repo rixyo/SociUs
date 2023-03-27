@@ -1,27 +1,20 @@
 import { auth, fireStore, storage } from '@/Firebase/clientapp';
 import { Button, Flex, Input, Text } from '@chakra-ui/react';
-import { addDoc, arrayUnion, collection, Timestamp, updateDoc } from 'firebase/firestore';
-import { ref, uploadString, getDownloadURL } from 'firebase/storage';
+import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import React, { useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-
-
-type Poll={
-    
-        options:string[],
-        createdBy?:string,
-        totalVotes?:[string],
-        createdAt:Timestamp,
-        expirationDate:Timestamp,
-
-    
+import { Poll } from '@/atoms/pollAtom';
+import { useRouter } from 'next/router';
+import { User } from 'firebase/auth';
+type pollProps = {
+  user:User
 }
-
-const Poll:React.FC = () => {
-    const [user]=useAuthState(auth)
+const Poll:React.FC<pollProps> = ({user}) => {
+ 
     const [options, setOptions] = useState<string[]>([]);
     let optionVal:string[]=[]
     const[loading,setLoading]=useState<boolean>(false)
+    const router=useRouter()
+    const {teamId}=router.query
    
     const[optionValue,setOptionValue]=useState({
         option1:"",
@@ -70,9 +63,11 @@ if(optionValue.option5!==""){
     optionVal.push(optionValue.option5)
 }
         const poll:Poll={
+          id:optionVal[0]+optionVal[1]+user.uid,
             options: optionVal,
-            createdBy:user?.uid,
-          
+            createdBy:user.uid,
+            teamId:teamId as string,
+            creatorDisplayName:user.email!.split('@')[0],
             createdAt:Timestamp.now(),
             expirationDate:twoDaysFromNow,
         }
@@ -90,6 +85,7 @@ if(optionValue.option5!==""){
         setLoading(false)
 
       }
+      
     
     return (
         <Flex border="1px solid" bg="white" borderColor="gray.300" borderRadius={4} _hover={{borderColor:'gray.500'}} cursor="pointer" width="100%" justify="center"  align="center" paddingY={5}>

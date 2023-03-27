@@ -16,9 +16,6 @@ export interface Post{
   
 
 }
-type Question={
-    title:string,
-}
 
 
 interface PostState{

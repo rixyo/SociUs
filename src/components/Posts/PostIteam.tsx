@@ -16,7 +16,7 @@ import { Flex, Icon,Stack,Text,Image, Skeleton } from '@chakra-ui/react';
 import moment from 'moment';
 import { auth } from '@/Firebase/clientapp';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import Link from 'next/link';
+;
 
 type PostIteamProps = {
     post:Post,

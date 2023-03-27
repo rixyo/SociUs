@@ -145,7 +145,7 @@ router.back()
                <ImageUpload selectedFile={selectedFile} onSelctedImage={onSelectedImage} setSelectedTab={setSelectedTab} setSelectedFile={setSelectedFile}   />
                }
                  {selectedTab==="Poll" &&
-             <Poll />
+             <Poll user={user} />
                }
                {selectedTab==="Link" &&
                <PostLink onChange={onTextChange} textInputs={textInputs} loading={loading} setSelectedTab={setSelectedTab}/>

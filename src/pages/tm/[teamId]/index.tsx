@@ -11,6 +11,8 @@ import CreatePostLink from '@/components/Community/CreatePostLink';
 import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Posts from '@/components/Posts/Posts';
+import Polls from '@/components/Posts/Poll/Polls';
+import { Stack } from '@chakra-ui/react';
 
 
 
@@ -70,7 +72,14 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
       <PageComponent>
       <>
       <CreatePostLink/>
+      <Stack gap={2}>
+      <Polls />
+
       <Posts />
+
+      </Stack>
+   
+    
       </>
       <>
       <div>Hello</div>
