@@ -14,6 +14,7 @@ import { fireStore, storage } from '@/Firebase/clientapp';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import Poll from './PostForm/Poll';
 import PostLink from './PostForm/Link';
+import Teams from '../Navbar/Directory/Teams';
 
 type NewPostFormProps = {
   user:User
@@ -124,6 +125,7 @@ router.back()
         ...prev,[name]:value
       }))
     }
+    
     
     return (
         <Flex direction="column" bg="whit" borderRadius={4} mt={2}>

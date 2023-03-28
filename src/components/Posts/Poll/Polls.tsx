@@ -8,7 +8,9 @@ import {useRouter} from 'next/router';
 import React, { useEffect, useState } from 'react';
 import PollIteam from './PollIteam';
 
+
 type PollsProps = {
+    poll:Poll
     
 };
 
@@ -34,6 +36,7 @@ const Polls:React.FC<PollsProps> = () => {
             
         }
         setLoading(false)
+        console.log(pollStateValue)
 
 
     }
@@ -44,9 +47,9 @@ const Polls:React.FC<PollsProps> = () => {
     return (
         <Stack>
             {pollStateValue.polls.map(item=>(
-                console.log(item),
                 <PollIteam poll={item}/>
             ))}
+            
         </Stack>
     )
 }

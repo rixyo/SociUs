@@ -8,23 +8,33 @@ import { User } from 'firebase/auth';
 type pollProps = {
   user:User
 }
+
 const Poll:React.FC<pollProps> = ({user}) => {
  
     const [options, setOptions] = useState<string[]>([]);
-    let optionVal:string[]=[]
+    let optionVal:any=[{}]
     const[loading,setLoading]=useState<boolean>(false)
+    const [title,setTitle]=useState<string>('')
     const router=useRouter()
     const {teamId}=router.query
    
+  
     const[optionValue,setOptionValue]=useState({
         option1:"",
+        
+        
         option2:"",
-        option3:"",
-        option4:"",
+         
+        
+        option3: "",
+          
+      
+        option4:""
+          
+        ,
         option5:"",
+        
     });
- 
-
 
   
     const handleAddOption = () => {
@@ -40,6 +50,7 @@ const Poll:React.FC<pollProps> = ({user}) => {
         }))
        
       }
+     
       const createPoll=async()=>{
         const currentTimeStamp = Timestamp.now();
         const twoDaysInMillis = 2 * 24 * 60 * 60 * 1000;
@@ -47,24 +58,40 @@ const Poll:React.FC<pollProps> = ({user}) => {
   currentTimeStamp.seconds + (twoDaysInMillis / 1000),
   currentTimeStamp.nanoseconds
 );
+
 if(optionValue.option1!==""){
-    optionVal.push(optionValue.option1)
+  const newItem={value:optionValue.option1,vote:[""]}
+  optionVal.push(newItem)
+ 
 }
 if(optionValue.option2!==""){
-    optionVal.push(optionValue.option2)
+  const newItem={value:optionValue.option2,vote:[""]}
+  optionVal.push(newItem)
+ 
 }
 if(optionValue.option3!==""){
-    optionVal.push(optionValue.option3)
+  const newItem={value:optionValue.option3,vote:[""]}
+  optionVal.push(newItem)
+
+ 
+
 }
 if(optionValue.option4!==""){
-    optionVal.push(optionValue.option4)
+  const newItem={value:optionValue.option4,vote:[""]}
+  optionVal.push(newItem)
+ 
+
 }
 if(optionValue.option5!==""){
-    optionVal.push(optionValue.option5)
+  const newItem={value:optionValue.option5,vote:[""]}
+  optionVal.push(newItem)
+
 }
+optionVal.shift()
         const poll:Poll={
-          id:optionVal[0]+optionVal[1]+user.uid,
-            options: optionVal,
+          title:title,
+          id:optionValue.option1+optionValue.option2 + user.uid,
+            options:optionVal,
             createdBy:user.uid,
             teamId:teamId as string,
             creatorDisplayName:user.email!.split('@')[0],
@@ -83,6 +110,7 @@ if(optionValue.option5!==""){
           
         }
         setLoading(false)
+        router.back()
 
       }
       
@@ -93,7 +121,21 @@ if(optionValue.option5!==""){
             <Flex width="60%"  direction="column" gap={2}>
                 <Text fontSize="10pt" fontWeight="bold">Poll ends in 2 days</Text>
                 
+                <Input
+            name="title"
+            onChange={(event)=>setTitle(event.target.value)}
             
+             _placeholder={{ color: "gray.500" }}
+             _focus={{
+               outline: "none",
+               bg: "white",
+               border: "1px solid",
+               borderColor: "black",
+             }}
+             fontSize="10pt"
+             borderRadius={4}
+             placeholder="Title"
+            />
             <Input
             name="option1"
             value={optionValue.option1}
@@ -133,6 +175,7 @@ if(optionValue.option5!==""){
             />
         {options.map((option, index) => (
             <Input
+            key={index}
             name={`option${index + 3}`}
             value={index + 3 === 3 ? optionValue.option3 : index + 3 === 4 ? optionValue.option4 : optionValue.option5}
             onChange={onTextChange}

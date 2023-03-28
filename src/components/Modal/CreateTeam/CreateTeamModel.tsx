@@ -168,15 +168,7 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
                       
                        
                        } 
-                      <Checkbox name="restricted"isChecked={teamType==="restricted"} onChange={onTeamChange}>
-                      <Flex align="center">
-                      <Icon as={BsFillEyeFill} color="gray.500" mr={2} />
-                        <Text fontSize="10pt" mr={1}>Restricted</Text>
-                        {teamType==="restricted" &&
-                       <Text fontSize="10pt" color="gray.500" pt={1}>Anyone will be able to view the team activity but approval memeber post comment in this team </Text>
-                       }
-                      </Flex>
-                      </Checkbox>
+                     
                     </Stack>
                 </Box>
 
