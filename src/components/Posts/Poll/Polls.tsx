@@ -10,7 +10,7 @@ import PollIteam from './PollIteam';
 
 
 type PollsProps = {
-    poll:Poll
+   
     
 };
 
@@ -18,13 +18,17 @@ const Polls:React.FC<PollsProps> = () => {
     const router=useRouter()
     const [loading,setLoading]=useState<boolean>(false)
     const {setPollStateValue,pollStateValue}=usePoll()
+    
+
     const getPoll=async()=>{
         setLoading(true)
         try {
             const q=query(collection(fireStore,"polls"),where("teamId","==",`${router.query.teamId}`),orderBy("createdAt","desc"))
             const querySnapshot = await getDocs(q);
            const polls= querySnapshot.docs.map((doc)=>({
-                id:doc.id, ...doc.data()
+         
+                id:doc.id, ...doc.data(),
+                
             }))
             setPollStateValue((prev)=>({
                 ...prev,
@@ -36,18 +40,20 @@ const Polls:React.FC<PollsProps> = () => {
             
         }
         setLoading(false)
-        console.log(pollStateValue)
+        
 
 
     }
     useEffect(()=>{
         getPoll()
     },[])
-    
+
+
     return (
         <Stack>
             {pollStateValue.polls.map(item=>(
-                <PollIteam poll={item}/>
+              
+                <PollIteam poll={item} />
             ))}
             
         </Stack>

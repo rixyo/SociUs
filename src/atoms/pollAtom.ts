@@ -8,39 +8,51 @@ type option= {
  
 
 export interface  Poll{
-    id:string,
+    id?:string,
     title:string,
     teamId:string,
     creatorDisplayName:string,
     options:[
-        option1:{
-            value:string,
-            vote:[]
-          
-          },
-          option2:{
-            value:string,
-            vote:[]
-           
-          },
-          option3:{
-            value:string,
-            vote:[]
-           
-          },
-          option4:{
-            value:string,
-            vote:[]
-           
-          },
-          option5:{
-            value:string,
-            vote:[]
-          
-          },
-    ],
+      option1:{
+        id:string,
+          value:string,
+          vote:string[],
+        
+        
+        },
+        option2:{
+          id:string,
+          value:string,
+         
+         
+        },
+        option3:{
+          id:string,
+          value:string,
+      
+         
+        },
+        option4:{
+          id:string,
+          value:string,
+        
+         
+        },
+        option5:{
+          id:string,
+          value:string,
+        
+        
+        },
+  ],
+   
     createdBy:string,
-    totalVotes?:[string],
+    option1Votes?:string[],
+    option2Votes?:string[],
+    option3Votes?:string[],
+    option4Votes?:string[],
+    option5Votes?:string[],
+    votedUser?:string[],
     createdAt:Timestamp,
     expirationDate:Timestamp,
 }

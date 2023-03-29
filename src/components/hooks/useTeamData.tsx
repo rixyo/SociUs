@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalAtom";
-import { useRouter } from "next/router";
+
 const useTeamData= () => {
     //const router=useRouter()
 

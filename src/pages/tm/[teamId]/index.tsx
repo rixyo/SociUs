@@ -73,7 +73,7 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
       <>
       <CreatePostLink/>
       <Stack gap={2}>
-      <Polls />
+     
 
       <Posts />
 
@@ -82,7 +82,11 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
     
       </>
       <>
-      <div>Hello</div>
+      <Stack gap={2} mt={20}>
+      <Polls/>
+
+      </Stack>
+     
       </>
   </PageComponent>
           </>
@@ -111,12 +115,12 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
 export async function getServerSideProps(context:GetServerSidePropsContext){
    
     try {
-    
-        
+
         const teamDocRef=doc(fireStore,"teams",context.query.teamId as string)
+      
         
         const teamDoc=await getDoc(teamDocRef)
-        console.log(teamDoc.data)
+    
         return{
            props:{
             teamData: teamDoc.exists() ? JSON.parse(safeJsonStringify({

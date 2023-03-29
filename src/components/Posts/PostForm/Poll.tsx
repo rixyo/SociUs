@@ -1,10 +1,12 @@
 import { auth, fireStore, storage } from '@/Firebase/clientapp';
 import { Button, Flex, Input, Text } from '@chakra-ui/react';
-import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import { addDoc, collection, Timestamp, updateDoc, writeBatch } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { Poll } from '@/atoms/pollAtom';
 import { useRouter } from 'next/router';
 import { User } from 'firebase/auth';
+
+
 type pollProps = {
   user:User
 }
@@ -12,26 +14,16 @@ type pollProps = {
 const Poll:React.FC<pollProps> = ({user}) => {
  
     const [options, setOptions] = useState<string[]>([]);
-    let optionVal:any=[{}]
+    let optionVal:any=[]
     const[loading,setLoading]=useState<boolean>(false)
     const [title,setTitle]=useState<string>('')
     const router=useRouter()
     const {teamId}=router.query
-   
-  
     const[optionValue,setOptionValue]=useState({
         option1:"",
-        
-        
         option2:"",
-         
-        
         option3: "",
-          
-      
-        option4:""
-          
-        ,
+        option4:"",
         option5:"",
         
     });
@@ -60,50 +52,78 @@ const Poll:React.FC<pollProps> = ({user}) => {
 );
 
 if(optionValue.option1!==""){
-  const newItem={value:optionValue.option1,vote:[""]}
+  const newItem={
+    value:optionValue.option1,id:optionValue.option1+Math.random()
+
+  }
+  
   optionVal.push(newItem)
  
 }
 if(optionValue.option2!==""){
-  const newItem={value:optionValue.option2,vote:[""]}
+  const newItem={
+    value:optionValue.option2,id:optionValue.option2+Math.random()
+
+  }
+
   optionVal.push(newItem)
  
 }
 if(optionValue.option3!==""){
-  const newItem={value:optionValue.option3,vote:[""]}
+  const newItem={
+    value:optionValue.option3,id:optionValue.option3+Math.random()
+
+  }
+
   optionVal.push(newItem)
 
  
 
 }
 if(optionValue.option4!==""){
-  const newItem={value:optionValue.option4,vote:[""]}
+  const newItem={
+    value:optionValue.option4,id:optionValue.option4+Math.random()
+
+  }
+    
   optionVal.push(newItem)
  
 
 }
 if(optionValue.option5!==""){
-  const newItem={value:optionValue.option5,vote:[""]}
+  const newItem={
+    value:optionValue.option5,id:optionValue.option5+Math.random()
+
+  }
+    
   optionVal.push(newItem)
 
 }
-optionVal.shift()
+//optionVal.shift()
         const poll:Poll={
           title:title,
-          id:optionValue.option1+optionValue.option2 + user.uid,
-            options:optionVal,
+          
+           options:optionVal,
             createdBy:user.uid,
             teamId:teamId as string,
             creatorDisplayName:user.email!.split('@')[0],
             createdAt:Timestamp.now(),
+            
             expirationDate:twoDaysFromNow,
         }
         setLoading(true)
         try {
          
-   
-            const postDocRef=await addDoc(collection(fireStore,"polls"),poll)
-            
+          const pollDocRef=await addDoc(collection(fireStore,"polls"),poll)
+          if(pollDocRef){
+            await updateDoc(pollDocRef,{
+              id:pollDocRef.id
+            })
+         
+          }
+         
+        
+      
         } catch (error:any) {
         
           console.log(error.message)
