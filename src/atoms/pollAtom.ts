@@ -1,10 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 import { atom } from "recoil";
-type option= {
-    value:string,
-    votes:[]
 
-}
  
 
 export interface  Poll{

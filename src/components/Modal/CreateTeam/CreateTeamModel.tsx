@@ -1,11 +1,11 @@
 
 import { auth, fireStore } from '@/Firebase/clientapp';
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Box, Divider,Text, Input, Stack, Checkbox, Flex, Icon } from '@chakra-ui/react';
-import { doc,runTransaction, serverTimestamp} from 'firebase/firestore';
+import { doc,runTransaction, serverTimestamp, Timestamp} from 'firebase/firestore';
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { BsFillEyeFill, BsFillPersonFill } from "react-icons/bs";
+import {  BsFillPersonFill } from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi"
 
 type CreateCommunityModelProps = {
@@ -21,7 +21,7 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
     const [characterRemaning,setCharacterRemaing]=useState(21)
     const [teamType,setTeamType]=useState<string>("private")
     const [nameError,setNameError]=useState<string>("")
-    const [loading,setLoading]=useState<boolean>(false)
+    const [loading,setLoading]=useState<boolean>()
     const [joinPassword,setJoinPassword]=useState<string>("")
  
     const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
@@ -63,10 +63,11 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
               }
 
           }
-         
+          
          transaction.set(teamDocRef,{
             Name:teamName,
             creatorId:user?.uid,
+            creatorDisplayName:user?.displayName||user?.email,
             createdAt:serverTimestamp(),
             privacyType:teamType,
             members:[user?.uid],
@@ -79,8 +80,10 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
 
           })
         })
+    
       
-          
+            
+      setLoading(false)
           
           await   router.push(`/tm/${teamName}`)
           router.reload()
@@ -92,8 +95,7 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
         setNameError(error.message)
         
       }
-      
-      setLoading(false)
+    
       
     
 
@@ -163,10 +165,7 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
            bgColor='gray.50'
            onChange={handlePassword}
            />
-            
                        </>
-                      
-                       
                        } 
                      
                     </Stack>
@@ -174,8 +173,6 @@ const CreateTeamModel:React.FC<CreateCommunityModelProps> = ({open,handleClose})
 
                </ModalBody>
               </Box>
-              
-             
     
               <ModalFooter bg="gray.100" borderRadius="0px 0px 10px 10px">
         <Button variant="outline" height="30px" mr={2} onClick={handleClose}>

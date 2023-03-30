@@ -13,8 +13,8 @@ import { addDoc, collection, serverTimestamp, Timestamp, updateDoc } from 'fireb
 import { fireStore, storage } from '@/Firebase/clientapp';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import Poll from './PostForm/Poll';
-import PostLink from './PostForm/Link';
-import Teams from '../Navbar/Directory/Teams';
+import PostLink from './PostForm/PostLink';
+
 
 type NewPostFormProps = {
   user:User
@@ -37,10 +37,7 @@ const formTabs:TabItem[]=[
         title: "Poll",
         icon: BiPoll,
       },
-      {
-        title: "Talk",
-        icon: BsMic,
-      },
+   
 ]
 export type TabItem = {
     title: string;
@@ -61,16 +58,16 @@ const NewPostForm:React.FC<NewPostFormProps> = ({user}) => {
     const [loading,setLoading]=useState<boolean>(false)
     const handleCreatePost=async()=>{
       const newPost:Post={
-        id:(user.uid+teamId),
-        teamId:teamId as string,
-        creatorId:user.uid,
-        creatorDisplayName:user.email!.split('@')[0],
-        title:textInputs.title,
-        body:textInputs.body,
-        numberOfComments:0,
-        voteStatus:0,
-        createdAt: serverTimestamp() as Timestamp
-}
+        teamId: teamId as string,
+        creatorId: user.uid,
+        creatorDisplayName: user.email!.split('@')[0],
+        title: textInputs.title,
+        body: textInputs.body,
+        numberOfComments: 0,
+        voteStatus: 0,
+        createdAt: serverTimestamp() as Timestamp,
+       
+      }
 
 if(newPost.title.length<=0){
   setCustomError("Post cannot be null, atleast provide  little hint about your idea");return;
@@ -82,8 +79,13 @@ else{
    
 
     const postDocRef=await addDoc(collection(fireStore,"posts"),newPost)
+    if(postDocRef){
+      await updateDoc(postDocRef,{
+        postId:postDocRef.id
+      })
+    }
     if(selectedFile){
-      const imageRef=ref(storage,`posts/${postDocRef.id}/image`)
+      const imageRef=ref(storage,`posts/${postDocRef.id}/images`)
       await uploadString(imageRef,selectedFile,'data_url')
       const downLoadUrl=await getDownloadURL(imageRef)
       await updateDoc(postDocRef,{
@@ -146,7 +148,7 @@ router.back()
                {selectedTab==="Images & Video" &&
                <ImageUpload selectedFile={selectedFile} onSelctedImage={onSelectedImage} setSelectedTab={setSelectedTab} setSelectedFile={setSelectedFile}   />
                }
-                 {selectedTab==="Poll" &&
+                 {selectedTab==="Poll" && 
              <Poll user={user} />
                }
                {selectedTab==="Link" &&

@@ -10,6 +10,9 @@ import {Stack} from '@chakra-ui/react';
 import PostLoader from './PostLoader';
 
 
+
+
+
 const Posts:React.FC = () => {
     const [loading,setLoading]=useState<boolean>(false)
     const {postStateValue,setPostStateValue,onDeletePost,onVote}=usePost()
@@ -44,15 +47,18 @@ const Posts:React.FC = () => {
        useEffect(()=>{
         getPosts()
        },[])
+
+       
     
-    
+ 
     return(
         <>
         {loading ?( <PostLoader />) :(
               <Stack>
               {postStateValue.posts.map(item=>(
-                   <PostIteam key={item.id+item.body} post={item} isCreator={item.creatorId===user?.uid} userVoteValue={undefined} onVote={onVote} onSelectPost={onSelectPost} onDeletePost={onDeletePost} />
+                   <PostIteam key={item.body+Math.random()} post={item} isCreator={item.creatorId===user?.uid} userVoteValue={undefined} onVote={onVote} onSelectPost={onSelectPost} onDeletePost={onDeletePost} />
                   ))}
+                 
        
               </Stack>
         )

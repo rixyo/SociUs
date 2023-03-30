@@ -14,7 +14,7 @@ type pollProps = {
 const Poll:React.FC<pollProps> = ({user}) => {
  
     const [options, setOptions] = useState<string[]>([]);
-    let optionVal:any=[]
+    let Option:any  = [];
     const[loading,setLoading]=useState<boolean>(false)
     const [title,setTitle]=useState<string>('')
     const router=useRouter()
@@ -57,7 +57,7 @@ if(optionValue.option1!==""){
 
   }
   
-  optionVal.push(newItem)
+  Option.push(newItem)
  
 }
 if(optionValue.option2!==""){
@@ -66,7 +66,7 @@ if(optionValue.option2!==""){
 
   }
 
-  optionVal.push(newItem)
+  Option.push(newItem)
  
 }
 if(optionValue.option3!==""){
@@ -75,7 +75,7 @@ if(optionValue.option3!==""){
 
   }
 
-  optionVal.push(newItem)
+  Option.push(newItem)
 
  
 
@@ -86,7 +86,7 @@ if(optionValue.option4!==""){
 
   }
     
-  optionVal.push(newItem)
+  Option.push(newItem)
  
 
 }
@@ -96,14 +96,14 @@ if(optionValue.option5!==""){
 
   }
     
-  optionVal.push(newItem)
+  Option.push(newItem)
 
 }
 //optionVal.shift()
         const poll:Poll={
           title:title,
           
-           options:optionVal,
+           options: Option,
             createdBy:user.uid,
             teamId:teamId as string,
             creatorDisplayName:user.email!.split('@')[0],

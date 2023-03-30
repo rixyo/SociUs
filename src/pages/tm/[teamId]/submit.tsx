@@ -1,3 +1,4 @@
+import { teamState } from '@/atoms/teamAtom';
 import PageComponent from '@/components/Layout/PageContent';
 import NewPostForm from '@/components/Posts/NewPostForm';
 
@@ -6,6 +7,7 @@ import { Box,Text } from '@chakra-ui/react';
 
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 type submitProps = {
     
@@ -13,6 +15,8 @@ type submitProps = {
 
 const SubmitPostPage:React.FC<submitProps> = () => {
     const [user]=useAuthState(auth)
+    const teamStateValue=useRecoilValue(teamState)
+  
     
     return (
         <PageComponent>

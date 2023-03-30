@@ -1,23 +1,19 @@
 
-import { Poll } from '@/atoms/pollAtom';
-import usePoll from '@/components/hooks/usePoll';
+import { Poll, pollState } from '@/atoms/pollAtom';
 import { fireStore } from '@/Firebase/clientapp';
 import { Stack } from '@chakra-ui/react';
 import { query, collection, where, orderBy, getDocs } from 'firebase/firestore';
 import {useRouter} from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import PollIteam from './PollIteam';
 
 
-type PollsProps = {
-   
-    
-};
 
-const Polls:React.FC<PollsProps> = () => {
+const Polls:React.FC= () => {
     const router=useRouter()
     const [loading,setLoading]=useState<boolean>(false)
-    const {setPollStateValue,pollStateValue}=usePoll()
+    const [pollStateValue,setPollStateValue]=useRecoilState(pollState)
     
 
     const getPoll=async()=>{

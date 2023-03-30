@@ -1,4 +1,4 @@
-import { Post } from '@/atoms/postAtom';
+import { Post, postState } from '@/atoms/postAtom';
 import React, { useState } from 'react';
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsChat} from "react-icons/bs";
@@ -10,10 +10,11 @@ import {
   IoArrowUpCircleSharp,
   IoBookmarkOutline,
 } from "react-icons/io5";
-import { Flex, Icon,Stack,Text,Image, Skeleton } from '@chakra-ui/react';
+import { Flex, Icon,Stack,Text,Image, Skeleton, Button } from '@chakra-ui/react';
 import moment from 'moment';
-import { auth } from '@/Firebase/clientapp';
+import { auth} from '@/Firebase/clientapp';
 import { useAuthState } from 'react-firebase-hooks/auth';
+
 ;
 
 type PostIteamProps = {
@@ -22,14 +23,29 @@ type PostIteamProps = {
     onSelectPost:()=>void,
    userVoteValue?:number,
    onVote:()=>{}
-   onDeletePost:()=>{}
+   onDeletePost:(post:Post)=>Promise<boolean>
     
 
 };
 
 const PostIteam:React.FC<PostIteamProps> = ({post,onSelectPost,userVoteValue,onDeletePost,onVote}) => {
+   
     const [user]=useAuthState(auth)
     const [loading,setLoading]=useState<boolean>(true)
+    const [customError,setCustomError]=useState<string>('')
+    const handleDelete =async()=>{
+        try {
+            const success=await onDeletePost(post)
+            if(!success){
+               throw new Error("Post Doesnot Deleted")
+            }
+            
+        } catch (error:any) {
+            setCustomError(error.message)
+            
+        }
+            
+        } 
     
     return(
         <Flex border="1px solid" bg="white" borderColor="gray.300" borderRadius={4} _hover={{borderColor:'gray.500'}} cursor="pointer" 
@@ -89,8 +105,9 @@ const PostIteam:React.FC<PostIteamProps> = ({post,onSelectPost,userVoteValue,onD
                      
                     </Flex>
                     {user?.uid===post.creatorId && 
-                    <Flex align="center" p="8px 10px" borderRadius={4} _hover={{bg:"gray.200"}} cursor="pointer">
-                        <Icon as={AiOutlineDelete} fontSize={18} mr={2} onClick={onDeletePost} />
+                    <Flex align="center" p="8px 10px" borderRadius={4} _hover={{bg:"gray.200"}} cursor="pointer" onClick={handleDelete}>
+                        <Icon as={AiOutlineDelete} fontSize={18} mr={2} 
+                        />
                         <Text fontSize="9pt">Delete</Text>
                     </Flex>
 }

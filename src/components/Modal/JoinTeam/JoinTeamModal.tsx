@@ -1,16 +1,18 @@
 
 
+import { authModalState } from '@/atoms/authModalAtom';
 import { joinModalState } from '@/atoms/joinModalAtom';
 import { Team, TeamSnippet, teamState } from '@/atoms/teamAtom';
 
 import { auth, fireStore } from '@/Firebase/clientapp';
 import { Button, Flex, Icon, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay,Text } from '@chakra-ui/react';
-import { arrayUnion, collection, doc, getDocs, increment, writeBatch } from 'firebase/firestore';
-import Router, { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+
+import { arrayUnion, collection, doc, getDocs, increment, writeBatch,Timestamp } from 'firebase/firestore';
+import { useRouter } from 'next/router';
+import React, {  useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { SiFauna } from 'react-icons/si';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 type JoinTeamModalProps = {
    privacy:string,
@@ -24,12 +26,15 @@ type JoinTeamModalProps = {
 const JoinTeamModal:React.FC<JoinTeamModalProps> = ({joinedMember,teamData,joinKey}) => {
   const [modalState,setModalState]=useRecoilState (joinModalState)
   const [teamStateValue,setTeamStateValue]=useRecoilState(teamState)
+  const setAuthModalState = useSetRecoilState(authModalState);
   const router = useRouter()
   const [password,setPassword]=useState<string>("")
     const [loading,setLoading]=useState<boolean>(true)
     const [user]=useAuthState(auth)
     const joinTeam=async()=>{
+    
       if(joinKey===password){
+      
         try {
          
           const betch=writeBatch(fireStore)
@@ -38,7 +43,6 @@ const JoinTeamModal:React.FC<JoinTeamModalProps> = ({joinedMember,teamData,joinK
           imageUrl: teamData.imageUrl || ""
       }
       betch.set(doc(fireStore,`users/${user?.uid}/teamSnippets`,teamData.id),newSnippet)
-     
       betch.update(doc(fireStore,"teams",teamData.id),{
           numberOfMembers: increment(1),
           members: arrayUnion(user?.uid)
@@ -48,12 +52,13 @@ const JoinTeamModal:React.FC<JoinTeamModalProps> = ({joinedMember,teamData,joinK
       ...prev,mySnippets:[...prev.mySnippets,newSnippet]
      }))
      router.reload()
+      setLoading(false)
   } catch (error:any) {
       console.log("Faild to join",error.message)
       //setCustomError(error.message)
   }
   
-  setLoading(false)
+ 
 
       }
       
@@ -127,7 +132,7 @@ const JoinTeamModal:React.FC<JoinTeamModalProps> = ({joinedMember,teamData,joinK
               mb={2}
               mt={2}
               onClick={joinTeam}
-             
+          
         
            
              

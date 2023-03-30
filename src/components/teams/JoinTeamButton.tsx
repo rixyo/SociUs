@@ -9,6 +9,7 @@ import useTeamData from "../hooks/useTeamData";
 import { Team, teamState } from "@/atoms/teamAtom";
 import { writeBatch, getDocs, collection, doc, increment, arrayRemove } from "firebase/firestore";
 import { useRouter } from "next/router";
+import { authModalState } from "@/atoms/authModalAtom";
 
 
 type AuthButtonsProps = {
@@ -24,6 +25,7 @@ const JoinTeamButton: React.FC<AuthButtonsProps> = ({isJoined,joinedMember,teamD
   const [teamStateValue,setTeamStateValue]=useRecoilState(teamState)
   const [loading,setLoading]=useState(false)
  const {onJoinOrLeaveTeam,customError,setCustomError} =useTeamData()
+ const setAuthModalState = useSetRecoilState(authModalState);
  
   const [user]=useAuthState(auth)
   const router = useRouter()
@@ -36,7 +38,14 @@ const JoinTeamButton: React.FC<AuthButtonsProps> = ({isJoined,joinedMember,teamD
       }))
 
     }else{
-      setTeamModalState ({ open: true, view:"join"})
+      if (!user) {
+        setAuthModalState({ open: true, view: "login" });
+        return;
+      }else{
+        setTeamModalState ({ open: true, view:"join"})
+
+      }
+     
 
     }
     

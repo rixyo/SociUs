@@ -3,6 +3,7 @@ import {atom} from "recoil"
 
 export interface Team{
     id:string,
+    creatorDisplayName:string,
     creatorId:string,
     privacyType: "public" | "private" | "restricted",
     createdAt?:Timestamp,
@@ -18,6 +19,7 @@ export interface TeamSnippet{
 }
 interface TeamState{
     mySnippets: TeamSnippet[],
+    currentTeam?:Team
 
 
 }

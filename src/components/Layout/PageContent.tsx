@@ -8,7 +8,7 @@ export default function PageComponent({
     
     return (
         <Flex justify="center" p="16px 0px">
-        <Flex width="95%" justify="center" maxWidth={"860px"}
+        <Flex width="95%" justify="center" maxWidth={"900px"}
         >
           <Flex
             direction="column"
@@ -17,17 +17,20 @@ export default function PageComponent({
           >
             {children && children[0 as keyof typeof children]}
           </Flex>
-          {/* Right Content */}
-          <Box
-            display={{ base: "none", md: "flex" }}
-            flexDirection="column"
-            flexGrow={1}
-          >
-            {children && children[1 as keyof typeof children]}
-          </Box>
-        
           
+          <Box
+         
+         display={{ base: "none", md: "flex" }}
+         flexDirection="column"
+         flexGrow={1}
+    
+         
+       >
+         {children && children[1 as keyof typeof children]}
+       </Box>
+      
         </Flex>
+        
       </Flex>
      
       

@@ -32,9 +32,9 @@ const Signup:React.FC = () => {
         const password=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/
         if(!password.test(singupForm.password)||!password.test(singupForm.confirmPassword)){
             setError("The password must be at least 6 characters long, at least one lowercase letter,least one uppercase letter,atleast one digit,at least one special character (such as @, $, !, %, *, ?, or &)")
-            return
+          
         }
-        if(singupForm.password!==singupForm.confirmPassword){
+        else if(singupForm.password!==singupForm.confirmPassword){
             setError("Passwords donot match")
             return
       
