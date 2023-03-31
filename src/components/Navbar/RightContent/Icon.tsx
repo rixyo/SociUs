@@ -40,18 +40,7 @@ const ActionIcons: React.FC<ActionIconsProps> = () => {
         >
           <Icon as={IoNotificationsOutline} fontSize={20} />
         </Flex>
-        <Flex
-          display={{ base: "none", md: "flex" }}
-          mr={3}
-          ml={1.5}
-          padding={1}
-          cursor="pointer"
-          borderRadius={4}
-          _hover={{ bg: "gray.200" }}
-          //onClick={toggleMenuOpen}
-        >
-          <Icon as={GrAdd} fontSize={20} />
-        </Flex>
+     
       </>
     </Flex>
   );

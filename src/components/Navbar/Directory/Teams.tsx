@@ -4,11 +4,9 @@ import CreateTeamModel from '@/components/Modal/CreateTeam/CreateTeamModel';
 import { Flex, MenuItem,Icon } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import {GrAdd} from "react-icons/gr"
-type CommunitesProps = {
-    
-};
 
-const Teams:React.FC<CommunitesProps> = () => {
+
+const Teams:React.FC = () => {
     const [open,setOpen]=useState(false)
     
     return(

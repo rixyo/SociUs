@@ -68,8 +68,14 @@ const Header:React.FC<headerProps> = ({teamData}) => {
           <Box height="50%" bg="teal.400" />
             <Flex justify="center" bg="white" flex={1}>
                 <Flex width="95%" maxWidth="860px">
-                {teamData.imageUrl? (
-                    <Image />
+                {teamStateValue.currentTeam?.imageUrl? (
+                    <Image src={teamStateValue.currentTeam.imageUrl} 
+                    borderRadius="full"
+              boxSize="66px"
+                    position="relative"
+                    top={-3}
+                    color="blue.500"
+                    border="4px solid white" alt='team image'/>
 
                 ):(
                     <Icon as={GiDove} fontSize={60} position="relative" top={-1/2} color="teal.500" border="8px solid white" borderRadius="50%"  />

@@ -14,6 +14,7 @@ import { fireStore, storage } from '@/Firebase/clientapp';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import Poll from './PostForm/Poll';
 import PostLink from './PostForm/PostLink';
+import useSelectFile from '../hooks/useSelectFile';
 
 
 type NewPostFormProps = {
@@ -54,7 +55,9 @@ const NewPostForm:React.FC<NewPostFormProps> = ({user}) => {
       body:"",
       url:""
     })
-    const [selectedFile,setSelectedFile]=useState<string>("")
+   const { selectedFile,
+    setSelectedFile,
+    onSelectFile,} =useSelectFile()
     const [loading,setLoading]=useState<boolean>(false)
     const handleCreatePost=async()=>{
       const newPost:Post={
@@ -110,17 +113,7 @@ setLoading(false)
 router.back()
 
     }
-    const onSelectedImage=(event:React.ChangeEvent<HTMLInputElement>)=>{
-      const reder=new FileReader()
-      if(event.target.files?.[0]){
-        reder.readAsDataURL(event.target.files[0])
-      }
-      reder.onload=(rederEvent)=>{
-        if(rederEvent.target?.result){
-          setSelectedFile(rederEvent.target.result as string)
-        }
-      }
-    }
+
     const onTextChange=(event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
       const {target:{name,value}}=event
       selectedTextInputs(prev=>({
@@ -146,7 +139,7 @@ router.back()
                }
             
                {selectedTab==="Images & Video" &&
-               <ImageUpload selectedFile={selectedFile} onSelctedImage={onSelectedImage} setSelectedTab={setSelectedTab} setSelectedFile={setSelectedFile}   />
+               <ImageUpload selectedFile={selectedFile} onSelctedImage={onSelectFile} setSelectedTab={setSelectedTab} setSelectedFile={setSelectedFile}   />
                }
                  {selectedTab==="Poll" && 
              <Poll user={user} />

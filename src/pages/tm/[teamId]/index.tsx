@@ -16,6 +16,7 @@ import { Stack } from '@chakra-ui/react';
 import { useSetRecoilState } from 'recoil';
 import About from '@/components/teams/About';
 
+
 type teamProps = {
     teamData:Team
 };
@@ -70,6 +71,7 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
     return(
        <>
         <Header teamData={teamData}/>
+        
      
       
     {isJoined && privacyType==="private" &&
