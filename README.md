@@ -1,6 +1,30 @@
-# SociUs a web application that is build with Next.js TypeScript, Firebase, and Chakra UI
-Socius is a web application built with Next.js, TypeScript, Firebase, and Chakra UI. This project allows users to connect and share content with each other on a social media platform.
+# SociUs
+SociUs is a web application that allows users to collaborate on group projects and share their ideas with others. Built using TypeScript, Chakra UI, and Firebase, SociUs is a powerful tool for teams looking to work together on a shared vision.
 
-Next.js, a React-based web development framework, provides the foundation for building dynamic and scalable web applications. TypeScript is a typed superset of JavaScript that enhances code readability and provides improved code organization and error detection. Firebase is a mobile and web application development platform that provides a cloud-hosted NoSQL database, authentication, and real-time database updates. Chakra UI is a React-based UI library that enables easy and flexible styling of components.
+Features
+Group project collaboration: Users can work together on group projects and share their ideas with others.
+Team creation: Users can create two types of teams: public and private. Public teams are open to anyone who wants to join, post, and contribute. Private teams are only accessible to selected users who can participate in the team's activities.
+Idea sharing: Users can share their new ideas with others, and if someone likes an idea, they can make a team and start working on it together.
+Technologies Used
+SociUs is built using the following technologies:
 
-Socius aims to provide a seamless and intuitive user experience with fast and responsive features, making it a great platform for connecting with friends, sharing interests, and building communities.
+TypeScript - a typed superset of JavaScript that compiles to plain JavaScript.
+Chakra UI - a simple, modular, and accessible component library that gives developers the tools they need to build accessible React applications.
+Firebase - a backend-as-a-service platform that provides developers with a range of tools and services to build and scale web and mobile applications.
+Getting Started
+To get started with SociUs, follow these steps:
+
+Clone the repository: git clone https://github.com/rixyo/SociUs.git.
+Install the dependencies: yarn add.
+Create a new Firebase project and add your Firebase configuration to the .env file.
+Run the application: yarn start.
+Contributions
+Contributions to SociUs are welcome! To contribute, please follow these steps:
+
+Fork the repository.
+Create a new branch for your changes: git checkout -b my-new-feature.
+Make your changes and commit them: git commit -am 'Add some feature'.
+Push to the branch: git push origin my-new-feature.
+Submit a pull request.
+License
+SociUs is licensed under the MIT License. See LICENSE for more information.
