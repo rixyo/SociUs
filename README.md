@@ -1,7 +1,7 @@
 # SociUs
 SociUs is a web application that allows users to collaborate on group projects and share their ideas with others. Built using TypeScript, Chakra UI, and Firebase, SociUs is a powerful tool for teams looking to work together on a shared vision.
 
-##Features
+Features
 Group project collaboration: Users can work together on group projects and share their ideas with others.
 Team creation: Users can create two types of teams: public and private. Public teams are open to anyone who wants to join, post, and contribute. Private teams are only accessible to selected users who can participate in the team's activities.
 Idea sharing: Users can share their new ideas with others, and if someone likes an idea, they can make a team and start working on it together.
@@ -20,8 +20,7 @@ Create a new Firebase project and add your Firebase configuration to the .env fi
 Run the application: yarn start.
 Contributions
 Contributions to SociUs are welcome! To contribute, please follow these steps:
-
-##Fork the repository.
+Fork the repository.
 Create a new branch for your changes: git checkout -b my-new-feature.
 Make your changes and commit them: git commit -am 'Add some feature'.
 Push to the branch: git push origin my-new-feature.
