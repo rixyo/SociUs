@@ -103,7 +103,7 @@ const Header:React.FC<headerProps> = ({teamData}) => {
                     {isJoined ? "Joined" : "Join"}
                   </Button >
                   }
-                   {customError &&<Text fontSize="9pt" mt={2} fontWeight={600} color="red">
+                   {customError &&<Text fontSize="9pt" mt={2} ml={2} fontWeight={600} color="red">
                     {customError}
                     </Text>}
 

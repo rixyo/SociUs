@@ -108,7 +108,7 @@ const About:React.FC<AboutProps> = ({teamData}) => {
                    </Flex>
                    <Flex width="100%" padding={1} fontWeight={500} fontSize="10pt">
                     <Icon as={DiYeoman} fontSize={18} />
-                    <Text ml={2}>Team Leader {teamData.creatorDisplayName}</Text>
+                    <Text ml={2}>Team Leader {teamData.creatorDisplayName.split("@")[0]}</Text>
                    </Flex>
                    <Flex direction="row" justify="space-between">
                    <Link href={`${teamId}/submit`}>

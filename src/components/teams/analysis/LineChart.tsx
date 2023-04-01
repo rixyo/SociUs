@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js/auto"
 import moment from 'moment';
-import { Line } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 import { Flex } from '@chakra-ui/react';
 type BarChartProps = {
     postData:Array<any>,
@@ -22,11 +22,12 @@ return setTotalData(total)
 
 
 
-}),[postData])
+}),[])
 useEffect(()=>{
     postData.map((item)=>{
         const myDate = item.createdAt.toDate()
        const formatedDate = moment(myDate).format('MMMM');
+    
         return setFormatedDate(formatedDate)
     })
   
@@ -39,7 +40,7 @@ useEffect(()=>{
         <Flex width="50%">
         <Line
       data={{
-        labels: [`${formatedDate.toString()}`],
+        labels: ["Total Post"],
         datasets: [
             {
                 label: 'Number of Posts',

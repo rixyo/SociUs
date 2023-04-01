@@ -14,30 +14,38 @@ import { Flex, Icon,Stack,Text,Image, Skeleton, Button } from '@chakra-ui/react'
 import moment from 'moment';
 import { auth} from '@/Firebase/clientapp';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useRouter } from 'next/router';
 
 ;
 
 type PostIteamProps = {
     post:Post,
     isCreator:boolean,
-    onSelectPost:()=>void,
+    onSelectPost?:(post:Post)=>void,
    userVoteValue?:number,
-   onVote:()=>{}
+   onVote:(event:React.MouseEvent<SVGElement,MouseEvent>,post:Post,vote:number,teamId:string)=>void
    onDeletePost:(post:Post)=>Promise<boolean>
     
 
 };
 
+
 const PostIteam:React.FC<PostIteamProps> = ({post,onSelectPost,userVoteValue,onDeletePost,onVote}) => {
-   
+   const router=useRouter()
     const [user]=useAuthState(auth)
     const [loading,setLoading]=useState<boolean>(true)
     const [customError,setCustomError]=useState<string>('')
-    const handleDelete =async()=>{
+    const singlePostPage:boolean=!onSelectPost
+  
+    const handleDelete =async(event:React.MouseEvent<HTMLDivElement,MouseEvent>)=>{
+        event.stopPropagation()
         try {
             const success=await onDeletePost(post)
             if(!success){
-               throw new Error("Post Doesnot Deleted")
+               throw new Error("Post Does not Deleted")
+            }
+            if(singlePostPage){
+                router.push(`/tm/${post.teamId}`)
             }
             
         } catch (error:any) {
@@ -48,18 +56,21 @@ const PostIteam:React.FC<PostIteamProps> = ({post,onSelectPost,userVoteValue,onD
         } 
     
     return(
-        <Flex border="1px solid" bg="white" borderColor="gray.300" borderRadius={4} _hover={{borderColor:'gray.500'}} cursor="pointer" 
-        onClick={onSelectPost} 
+        <Flex border="1px solid" bg="white" borderColor={singlePostPage?"white":"gray.300"} borderRadius={singlePostPage?"4px 4px 0px 0px":"4px"}
+         _hover={{borderColor:singlePostPage?"none":"gray.500"}} cursor={singlePostPage?"unset":"pointer"}
+        onClick={()=>onSelectPost && onSelectPost(post)} 
         >
            
-            <Flex direction="column" align="center" bg="gray.100" p={2} width="40px">
+            <Flex direction="column" align="center"  bg={singlePostPage? "none" : "gray.100"} p={2} width="40px"
+              borderRadius={singlePostPage ? "0" : "3px 0px 0px 3px"}
+            >
                 <Icon as={userVoteValue===1?IoArrowUpCircleSharp:IoArrowUpCircleOutline} color={userVoteValue===1?"brand.100":"gray.400"} fontSize={22} 
-                onClick={onVote}
+                onClick={(event)=>onVote(event,post,1,post.teamId)}
                 cursor="pointer"
                 />
                 <Text fontSize="9pt">{post.voteStatus}</Text>
                 <Icon as={userVoteValue===-1? IoArrowDownCircleSharp: IoArrowDownCircleOutline} color={userVoteValue===-1?"#4379ff":"gray.400"} fontSize={22} cursor="pointer" 
-                onClick={onVote}
+                onClick={(event)=>onVote(event,post,-1,post.teamId)}
                 />
 
             </Flex>

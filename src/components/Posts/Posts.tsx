@@ -17,7 +17,12 @@ const Posts:React.FC = () => {
     const [loading,setLoading]=useState<boolean>(false)
     const {postStateValue,setPostStateValue,onDeletePost,onVote}=usePost()
     const [user]=useAuthState(auth)
-    const onSelectPost=()=>{
+    const onSelectPost=(post:Post)=>{
+        setPostStateValue((prev)=>({
+            ...prev,
+            selectedPost:post
+        }))
+        router.push(`/tm/${post.teamId}/comments/${post.id}`)
     
     }
    
@@ -56,7 +61,10 @@ const Posts:React.FC = () => {
         {loading ?( <PostLoader />) :(
               <Stack>
               {postStateValue.posts.map(item=>(
-                   <PostIteam key={item.body+Math.random()} post={item} isCreator={item.creatorId===user?.uid} userVoteValue={undefined} onVote={onVote} onSelectPost={onSelectPost} onDeletePost={onDeletePost} />
+                   <PostIteam key={item.body+Math.random()} post={item} isCreator={item.creatorId===user?.uid}
+                    userVoteValue={postStateValue.postVotes.find(vote=>vote.postId===item.id)?.voteValue}
+
+                    onVote={onVote} onSelectPost={onSelectPost} onDeletePost={onDeletePost} />
                   ))}
                  
        

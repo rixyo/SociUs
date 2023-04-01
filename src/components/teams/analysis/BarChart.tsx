@@ -40,7 +40,7 @@ useEffect(()=>{
         <Flex width="50%">
         <Bar
       data={{
-        labels: [formatedDate.toString()],
+        labels: ["Total Poll"],
         datasets: [
             {
                 label: 'Number of Polls',

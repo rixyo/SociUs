@@ -111,16 +111,15 @@ const PollIteam:React.FC<PollIteamProps> = ({poll}) => {
  
 
     const myDate = poll.expirationDate.toDate();
-    const formattedDate = moment(myDate).format('MMMM Do YYYY, h:mm:ss a');
+    const formattedDate = moment(myDate).format('MMMM DD YYYY h:mm:ss');
+    const currentDate = new Date();
 
   useEffect(()=>{
-    const currentDate = new Date();
-    console.log(formattedDate)
-    console.log(currentDate)
+   
     if(currentDate.toDateString()===formattedDate.toString()){
      handleDelete()
     }
-  },[])
+  },[formattedDate,currentDate])
  
 
     return (

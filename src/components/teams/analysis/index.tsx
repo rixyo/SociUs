@@ -106,9 +106,9 @@ useEffect(()=>{
       <Divider/>
             </>
             <Flex width="50%" direction="row" margin="0px auto" gap={5} >
-           <LineChart postData={postData}/>
+          {/*<LineChart postData={postData}/> */}
             <PieChart totalMembers={totalMembers} postData={postData} pollData={pollData} />
-            <BarChart pollData={pollData}/>
+           {/* <BarChart pollData={pollData}/> */}
      
          
             

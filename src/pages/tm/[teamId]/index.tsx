@@ -15,6 +15,7 @@ import Polls from '@/components/Posts/Poll/Polls';
 import { Stack } from '@chakra-ui/react';
 import { useSetRecoilState } from 'recoil';
 import About from '@/components/teams/About';
+import PageContent from '@/components/Layout/PageContent';
 
 
 type teamProps = {
@@ -76,7 +77,7 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
       
     {isJoined && privacyType==="private" &&
       <>
-      <PageComponent>
+      <PageContent>
       <>
       <CreatePostLink/>
      
@@ -97,12 +98,12 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
      
       </>
       
-  </PageComponent>
+  </PageContent>
           </>
     }
     {privacyType==="public" &&
         <>
-        <PageComponent>
+        <PageContent>
         <>
         <CreatePostLink/>
        
@@ -123,7 +124,7 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
        
         </>
         
-    </PageComponent>
+    </PageContent>
             </>
     }
     

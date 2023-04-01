@@ -1,6 +1,7 @@
 import { teamState } from '@/atoms/teamAtom';
 import PageComponent from '@/components/Layout/PageContent';
 import NewPostForm from '@/components/Posts/NewPostForm';
+import About from '@/components/teams/About';
 
 import { auth } from '@/Firebase/clientapp';
 import { Box,Text } from '@chakra-ui/react';
@@ -9,11 +10,7 @@ import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-type submitProps = {
-    
-};
-
-const SubmitPostPage:React.FC<submitProps> = () => {
+const SubmitPostPage:React.FC = () => {
     const [user]=useAuthState(auth)
     const teamStateValue=useRecoilValue(teamState)
   
@@ -29,6 +26,7 @@ const SubmitPostPage:React.FC<submitProps> = () => {
                 </Box>
                 </>
             <>
+        {teamStateValue.currentTeam && <About teamData={teamStateValue.currentTeam} /> }    
           
             </>
 

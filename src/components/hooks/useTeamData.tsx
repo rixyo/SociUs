@@ -1,15 +1,17 @@
 import { Team, TeamSnippet, teamState } from "@/atoms/teamAtom";
 import { auth, fireStore } from "@/Firebase/clientapp";
-import { arrayRemove, arrayUnion, collection, doc, getDocs, increment, writeBatch } from "firebase/firestore";
+import { arrayRemove, arrayUnion, collection, doc, getDoc, getDocs, increment, writeBatch } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalAtom";
+import { useRouter } from "next/router";
 
 const useTeamData= () => {
     //const router=useRouter()
 
     const [user]=useAuthState(auth)
+    const router=useRouter()
     const setAuthModalState = useSetRecoilState(authModalState);
 
     const [teamStateValue,setTeamStateValue]=useRecoilState(teamState)
@@ -21,11 +23,14 @@ const useTeamData= () => {
             setAuthModalState({ open: true, view: "login" });
             return;
           }
-        if(isJoined && creatorId!==user.uid){
+        if(isJoined&&creatorId!==user?.uid ){
             leaveTeam(teamData)
             return
-        }else{
+          
+        }
+        else if(isJoined&&creatorId===user?.uid){
             setCustomError("Admin cannot leave the team")
+            return
         }
        
      joinTeam(teamData)
@@ -52,11 +57,34 @@ const useTeamData= () => {
         }
         setLoading(false)
     }
+    const getTeamData=async(teamId:string)=>{
+        try {
+            const teamDocRef=doc(fireStore,"teams",teamId)
+            const teamDoc=await getDoc(teamDocRef)
+            setTeamStateValue(prev=>({
+                ...prev,currentTeam:{...teamDoc.data(),id:teamDoc.id} as Team
+            }))
+           
+
+            
+        } catch (error:any) {
+            console.log("team data error",error.message)
+            
+        }
+
+    }
     useEffect(()=>{
         if(!user) return
       
         getMySnippet()
     },[user])
+    useEffect(()=>{
+        const {teamId}=router.query
+        if(teamId && !teamStateValue.currentTeam){
+            getTeamData(teamId as string)
+        }
+
+    },[router.query,teamStateValue.currentTeam])
     const joinTeam=async(teamData:Team)=>{
        
         try {

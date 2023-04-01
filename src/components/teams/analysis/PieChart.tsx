@@ -15,9 +15,7 @@ const PieChart:React.FC<PieChartProps> = ({totalMembers,pollData,postData}) => {
     const [totalPolls,setTotalPolls]=useState<number>(0)
     useEffect(()=>{
         const total=postData.length
-        postData.map((item)=>{
-            console.log(item.length)
-        })
+        
         return setTotalPosts(total)
     },[postData])
     useEffect(()=>{

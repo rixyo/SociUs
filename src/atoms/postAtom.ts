@@ -17,14 +17,21 @@ export interface Post{
 
 }
 
-
+export type postVote={
+    id:string,
+    postId:string,
+    voteValue:number,
+    teamId:string
+}
 interface PostState{
     selectedPost: Post|null,
-    posts:Post[]
+    posts:Post[],
+    postVotes:postVote[]
 }
 const defaultPostState:PostState={
     selectedPost:null,
-    posts:[]
+    posts:[],
+    postVotes:[]
 
 }
 export const postState=atom<PostState>({

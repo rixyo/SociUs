@@ -1,6 +1,6 @@
 
 import {Box, Flex} from "@chakra-ui/react"
-export default function PageComponent({
+export default function PageContent({
     children,  
   }: {
     children: React.ReactNode
