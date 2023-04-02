@@ -2,10 +2,12 @@ import { Post } from '@/atoms/postAtom';
 import usePost from '@/components/hooks/usePost';
 import useTeamData from '@/components/hooks/useTeamData';
 import PageContent from '@/components/Layout/PageContent';
+import Comments from '@/components/Posts/Comments/comment';
 import PostIteam from '@/components/Posts/PostIteam';
 import About from '@/components/teams/About';
 import { auth, fireStore } from '@/Firebase/clientapp';
-import { collection, doc, getDoc, query, where } from 'firebase/firestore';
+import { User } from 'firebase/auth';
+import {  doc, getDoc } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -48,6 +50,8 @@ const postPage:React.FC = () => {
             isCreator={postStateValue.selectedPost?.creatorId===user?.uid}
             />
             }
+       {}   <Comments user={user as User} selectedPost={postStateValue.selectedPost} teamId={postStateValue.selectedPost?.teamId as string}  />
+       
             </>
             <>
          {teamStateValue.currentTeam && <About teamData={teamStateValue.currentTeam} />}   

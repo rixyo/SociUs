@@ -11,7 +11,7 @@ import CreatePostLink from '@/components/teams/CreatePostLink';
 import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Posts from '@/components/Posts/Posts';
-import Polls from '@/components/Posts/Poll/Polls';
+import Polls from '@/components/Poll/Polls';
 import { Stack } from '@chakra-ui/react';
 import { useSetRecoilState } from 'recoil';
 import About from '@/components/teams/About';

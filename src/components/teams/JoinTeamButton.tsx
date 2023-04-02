@@ -19,12 +19,12 @@ type AuthButtonsProps = {
   creatorId:string
 };
 
-const JoinTeamButton: React.FC<AuthButtonsProps> = ({isJoined,joinedMember,teamData,creatorId}) => {
+const JoinTeamButton: React.FC<AuthButtonsProps> = ({isJoined,teamData,creatorId}) => {
   const setTeamModalState = useSetRecoilState(joinModalState);
  
   const [teamStateValue,setTeamStateValue]=useRecoilState(teamState)
   const [loading,setLoading]=useState(false)
- const {onJoinOrLeaveTeam,customError,setCustomError} =useTeamData()
+ const {customError,setCustomError} =useTeamData()
  const setAuthModalState = useSetRecoilState(authModalState);
  
   const [user]=useAuthState(auth)
@@ -54,6 +54,7 @@ const JoinTeamButton: React.FC<AuthButtonsProps> = ({isJoined,joinedMember,teamD
       
     }else{
       if(isJoined){
+        setLoading(true)
         try {
           const batch = writeBatch(fireStore);
           const snippetDocs=getDocs(collection(fireStore,"teams"))
@@ -87,10 +88,11 @@ const JoinTeamButton: React.FC<AuthButtonsProps> = ({isJoined,joinedMember,teamD
       setCustomError(error.message)
       
     }
+    setLoading(false);
 
       }
      
-    setLoading(false);
+   
      
      
     }

@@ -48,6 +48,7 @@ useEffect(()=>{
             }
         })
         setPostData(data)
+        //console.log(data)
     }
     const getPollData=async()=>{
         const poll=query(collection(fireStore,"polls"),where("teamId","==",`${router.query.teamId}`))

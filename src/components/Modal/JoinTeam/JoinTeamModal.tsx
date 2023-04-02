@@ -29,12 +29,18 @@ const JoinTeamModal:React.FC<JoinTeamModalProps> = ({joinedMember,teamData,joinK
   const setAuthModalState = useSetRecoilState(authModalState);
   const router = useRouter()
   const [password,setPassword]=useState<string>("")
-    const [loading,setLoading]=useState<boolean>(true)
+    const [loading,setLoading]=useState<boolean>(false)
+    const [customError,setCustomError]=useState<string>("")
     const [user]=useAuthState(auth)
     const joinTeam=async()=>{
+      if(password!==joinKey){
+        setCustomError("Invalid Joining Key")
+        setLoading(false)
+      }
+
     
-      if(joinKey===password){
-      
+     else  if(joinKey===password){
+      setLoading(true)
         try {
          
           const betch=writeBatch(fireStore)
@@ -48,15 +54,18 @@ const JoinTeamModal:React.FC<JoinTeamModalProps> = ({joinedMember,teamData,joinK
           members: arrayUnion(user?.uid)
       })
      await betch.commit()
+ 
      setTeamStateValue(prev=>({
       ...prev,mySnippets:[...prev.mySnippets,newSnippet]
      }))
+  
      router.reload()
-      setLoading(false)
+     
   } catch (error:any) {
       console.log("Faild to join",error.message)
       //setCustomError(error.message)
   }
+  setLoading(false)
   
  
 
@@ -132,6 +141,7 @@ const JoinTeamModal:React.FC<JoinTeamModalProps> = ({joinedMember,teamData,joinK
               mb={2}
               mt={2}
               onClick={joinTeam}
+              isLoading={loading}
           
         
            
@@ -139,7 +149,14 @@ const JoinTeamModal:React.FC<JoinTeamModalProps> = ({joinedMember,teamData,joinK
             >
              Join
             </Button>
+            {customError && (
+            <Text textAlign="center" fontSize="10pt" color="red">
+           {customError}
+            </Text>
+            )
+            }
             </form>
+
        
         </>
         

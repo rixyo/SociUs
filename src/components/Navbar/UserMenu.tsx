@@ -1,5 +1,5 @@
 
-import { Menu, MenuButton, MenuList, MenuItem, Icon, Flex, MenuDivider, Text, Box, Avatar, WrapItem } from '@chakra-ui/react';
+import { Menu, MenuButton, MenuList, MenuItem, Icon, Flex, MenuDivider, Text, Box, Avatar, WrapItem,Image } from '@chakra-ui/react';
 import { User } from 'firebase/auth';
 import React from 'react';
 import { VscAccount } from "react-icons/vsc";
@@ -40,12 +40,15 @@ const UserMenu:React.FC<UserMenuProps> = ({User}) => {
  {User ? (
     <Flex align="center">
         <Flex align="center">
+          
     <>
- 
+
     <WrapItem mr={2}>
+    
+     
     <Avatar
       size='xs'
-      name={User?.email?.split("@")[0] || User?.displayName || "UNKNOWN"  }
+      name={ User?.email?.split("@")[0] || User?.displayName || "UNKNOWN"  }
      
     />{' '}
   </WrapItem>

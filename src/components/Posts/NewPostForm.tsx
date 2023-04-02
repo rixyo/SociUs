@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { addDoc, collection, serverTimestamp, Timestamp, updateDoc } from 'firebase/firestore';
 import { fireStore, storage } from '@/Firebase/clientapp';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
-import Poll from './PostForm/Poll';
+import Poll from '../Poll/Poll';
 import PostLink from './PostForm/PostLink';
 import useSelectFile from '../hooks/useSelectFile';
 
