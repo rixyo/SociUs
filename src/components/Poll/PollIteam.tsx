@@ -157,11 +157,6 @@ const PollIteam:React.FC<PollIteamProps> = ({poll}) => {
                     <Flex border="1px solid white" marginTop={5} width="100%" bg="teal.500">
                       <Text m="0 auto" fontSize="10pt" fontWeight={600}>Result Section</Text>
                     </Flex>
-                
-
-                   
-
-                 
                     {poll.option1Votes!==null && poll.option1Votes!==undefined && poll.option1Votes?.length>0 && poll.votedUser!==undefined &&
                     <>
                     

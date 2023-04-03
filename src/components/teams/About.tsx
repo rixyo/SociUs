@@ -16,6 +16,10 @@ import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { doc, updateDoc } from 'firebase/firestore';
 import {  useSetRecoilState } from 'recoil';
 import { teamState } from '@/atoms/teamAtom';
+import { SiGnuprivacyguard } from 'react-icons/si';
+import { GoRepo } from 'react-icons/go';
+import { BsSlack } from 'react-icons/bs';
+import { FaCommentDots } from 'react-icons/fa';
 type AboutProps = {
     teamData:Team
 };
@@ -30,7 +34,7 @@ const About:React.FC<AboutProps> = ({teamData}) => {
     const setTeamStateValue=useSetRecoilState(teamState)
 
 
-    let activeMembers = 0;
+    let activeMembers:number = 0;
     
     for (let i = 0; i < teamData.members.length; i++) {
       if ( teamData.members[i] == user?.uid ) {
@@ -73,13 +77,20 @@ const About:React.FC<AboutProps> = ({teamData}) => {
         
     
       };
+      const onClickLink=()=>{
+        const  teamId  = teamData.id;
+        if (teamId) {
+          router.push(`/tm/${teamData.id}/addlink`);
+          return;
+        }
+      }
 
 
     
     return (
         <Box position="sticky" top="14px" >
-            <Flex justify="space-between" align="center" bg="teal.500" color="white" p={3} borderRadius="4px 4px 0px 0px">
-                <Text align="center" fontSize="10pt" fontWeight={700}>About Team</Text>
+            <Flex justify="space-between" align="center" bg="teal.500" color="black" p={3} borderRadius="4px 4px 0px 0px">
+                <Text align="center" fontSize="15pt" fontWeight={700}>About Team</Text>
                 <Icon as={HiOutlineDotsHorizontal} />
             </Flex>
             <Flex direction="column" p={3} bg="white" borderRadius="0px 0px 4px 4px">
@@ -110,20 +121,48 @@ const About:React.FC<AboutProps> = ({teamData}) => {
                     <Icon as={DiYeoman} fontSize={18} />
                     <Text ml={2}>Team Leader {teamData.creatorDisplayName.split("@")[0]}</Text>
                    </Flex>
+                   <Flex width="100%" padding={1} fontWeight={500} fontSize="10pt">
+                    <Icon as={SiGnuprivacyguard} fontSize={18} />
+                    <Text ml={2}>Type:  {teamData.privacyType}</Text>
+                   </Flex>
+                   <Flex width="100%" p={3} fontWeight={700} fontSize="15pt" bg="teal.500">
+                    <Text color="black" >Repository & Communication</Text>
+                   </Flex>
+                 
+                   <Flex width="100%" padding={1} fontWeight={500} fontSize="10pt" align="center" >
+                    <Icon as={GoRepo} fontSize={18}  />
+                    { teamData.githubRepo && teamData.githubRepo?.map((repo,index)=>(
+                        <Link href={repo}>
+                          <Text _hover={{textDecoration:"underline"}} ml={2}>repo:  {repo}</Text>
+                        </Link>
+                    ))}
+                   </Flex>
+                   <Flex width="100%" padding={1} fontWeight={500} fontSize="10pt" align="center" >
+                    <Icon as={FaCommentDots} fontSize={18}  />
+                    { teamData.communicationChannel && teamData.communicationChannel?.map((url,index)=>(
+                        <Link href={url}>
+                          <Text _hover={{textDecoration:"underline"}} ml={2}> channel:  {url}</Text>
+                        </Link>
+                    ))}
+                   </Flex>
                    <Flex direction="row" justify="space-between">
-                   <Link href={`${teamId}/submit`}>
-                   <Button mt={3} height="30px">
-                    Create Post
-                   </Button>
-                   </Link>
+                 {user?.uid===teamData.creatorId && 
+                
+                 <Button mt={3} height="30px"
+                    onClick={onClickLink}
+                 >
+                  Add Link
+                 </Button>
+                 
+                 }  
                    {user?.uid==teamData.creatorId &&
-                    <Link href={`${teamId}/analysis`}>
+                   
                     <Button mt={3} height="30px" onClick={onClick}>
                         <Icon as ={IoMdAnalytics} fontSize={18} />
                         <Text ml={2}>Analytics</Text>
                    
                     </Button>
-                    </Link>
+                  
                    }
                     
                    </Flex>

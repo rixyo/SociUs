@@ -46,18 +46,21 @@ const Polls:React.FC= () => {
 
 
     return (
-        <Stack>
+    
+            <>
+         
             {pollStateValue.polls.map(item=>(
-                <>
                 <Stack key={item.id}>
-                <PollIteam poll={item} />
+                
+                <PollIteam poll={item}  />
+               
                 </Stack>
-                </>
-              
+                
                
             ))}
+             </>
             
-        </Stack>
+       
     )
 }
 export default Polls;

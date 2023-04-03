@@ -21,6 +21,10 @@ type NewPostFormProps = {
   user:User
     
 };
+export type TabItem = {
+    title: string;
+    icon: typeof Icon.arguments;
+  };
 const formTabs:TabItem[]=[
     {
         title: "Post",
@@ -40,10 +44,6 @@ const formTabs:TabItem[]=[
       },
    
 ]
-export type TabItem = {
-    title: string;
-    icon: typeof Icon.arguments;
-  };
 const NewPostForm:React.FC<NewPostFormProps> = ({user}) => {
   const router=useRouter()
   const {teamId}=router.query
@@ -123,7 +123,7 @@ router.back()
     
     
     return (
-        <Flex direction="column" bg="whit" borderRadius={4} mt={2}>
+        <Flex direction="column" bg="white" borderRadius={4} mt={2}>
             <Flex width="100%" key={Math.random()} >
                 {formTabs.map((item)=>(
                       <TabItem  item={item} selected={item.title===selectedTab} setSelectedTab={setSelectedTab} />

@@ -10,6 +10,8 @@ export interface Team{
     imageUrl?:string,
     members:string[],
     joinKey?:string,
+    githubRepo?:string[],
+    communicationChannel?:string[],
 
 }
 export interface TeamSnippet{

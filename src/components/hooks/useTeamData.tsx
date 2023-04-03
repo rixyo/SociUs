@@ -74,10 +74,14 @@ const useTeamData= () => {
 
     }
     useEffect(()=>{
-        if(!user) return
+        if(!user){
+            return
+        }else{
+            getMySnippet()
+        }
       
-        getMySnippet()
-    },[user])
+     
+    },[user?.uid])
     useEffect(()=>{
         const {teamId}=router.query
         if(teamId && !teamStateValue.currentTeam){

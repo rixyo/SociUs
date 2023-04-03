@@ -8,12 +8,15 @@ import usePost from '../hooks/usePost';
 import PostIteam from './PostIteam';
 import {Stack} from '@chakra-ui/react';
 import PostLoader from './PostLoader';
+import { Team } from '@/atoms/teamAtom';
+type props={
+    teamData:Team
+}
 
 
 
 
-
-const Posts:React.FC = () => {
+const Posts:React.FC<props> = ({teamData}) => {
     const [loading,setLoading]=useState<boolean>(false)
     const {postStateValue,setPostStateValue,onDeletePost,onVote}=usePost()
     const [user]=useAuthState(auth)
@@ -51,7 +54,7 @@ const Posts:React.FC = () => {
        }
        useEffect(()=>{
         getPosts()
-       },[])
+       },[teamData])
 
        
     

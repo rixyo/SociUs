@@ -33,7 +33,7 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
       if(teamId){
         useEffect(()=>{
             async function getTeamInfo(){
-             const q=query(collection(fireStore,"teams"),where("Name","==",`${router.query.teamId}`))
+             const q=query(collection(fireStore,"teams"),where("Name","==",teamData.id))
              const querySnapshot = await getDocs(q);
              querySnapshot.forEach((doc) => {
                   const teamSnippets=doc.data()
@@ -84,7 +84,7 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
       <Stack gap={2}>
         <Polls/>
 
-      <Posts />
+      <Posts teamData={teamData} />
 
       </Stack>
    
@@ -110,7 +110,7 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
         <Stack gap={2}>
           <Polls/>
   
-        <Posts />
+        <Posts teamData={teamData} />
   
         </Stack>
      

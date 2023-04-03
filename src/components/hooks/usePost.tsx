@@ -107,7 +107,7 @@ const usePost= () => {
                 ...prev,
                 posts:prev.posts.filter(item=>item.id!==post.id)
             }))
-            console.log("deleted")
+           
             return true
          
             
