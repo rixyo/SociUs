@@ -7,7 +7,7 @@ import { BiPoll } from 'react-icons/bi';
 import { BsFillPostcardFill } from 'react-icons/bs';
 import { TiGroup } from 'react-icons/ti';
 import { useRouter } from 'next/router';
-import { Team } from '@/atoms/teamAtom';
+
 
 import PieChart from './PieChart';
 import LineChart from './LineChart';
@@ -82,21 +82,21 @@ useEffect(()=>{
         </Flex>
        
             <>
-            <Flex direction="column" width="100%" gap={2}>
+            <Flex direction="column" width="100%" gap={2} justify="center" align="center">
                 
-      <Flex  bg="white" border="1px solid" p={3} borderTopLeftRadius="10px" borderBottomRightRadius="5px" width="50%" alignSelf="center" direction="row" >
+      <Flex  bg="white" border="1px solid" p={3} borderTopLeftRadius="10px" borderBottomRightRadius="5px" width="50%" direction="row" >
         <Icon as={TiGroup} fontSize={30} color="teal.500" />
         <Text fontSize="14pt" fontWeight={600} ml={3}>Total Members: {totalMembers}  </Text>
         
       </Flex>
       <Divider/>
-      <Flex  bg="white" border="1px solid" p={3} borderTopLeftRadius="10px" borderBottomRightRadius="5px" width="50%" alignSelf="center" direction="row" >
+      <Flex  bg="white" border="1px solid" p={3} borderTopLeftRadius="10px" borderBottomRightRadius="5px" width="50%"  direction="row" >
         <Icon as={BsFillPostcardFill} fontSize={30} color="teal.500" />
         <Text fontSize="14pt" fontWeight={600} ml={3}>Total Posts: {postData.length}</Text>
         
       </Flex>
       <Divider/>
-      <Flex  bg="white" border="1px solid" p={3} borderTopLeftRadius="10px" borderBottomRightRadius="5px" width="50%" mb={10} alignSelf="center" direction="row" >
+      <Flex  bg="white" border="1px solid" p={3} borderTopLeftRadius="10px" borderBottomRightRadius="5px" width="50%" mb={10} direction="row" >
         <Icon as={BiPoll} fontSize={30} color="teal.500" />
         <Text fontSize="14pt" fontWeight={600} ml={3}>Total Polls: {pollData.length}</Text>
         
@@ -105,22 +105,16 @@ useEffect(()=>{
      
       </Flex>
       <Divider/>
+      
             </>
-            <Flex width="50%" direction="row" margin="0px auto" gap={5} >
-          {/*<LineChart postData={postData}/> */}
+            <Flex width="100%" height="70vh" maxW="70%"  direction="column" ml={20}  gap={5} alignItems="center" justifySelf="space-between">
+                <LineChart postData={postData}/> 
+            <Divider/>
+          
             <PieChart totalMembers={totalMembers} postData={postData} pollData={pollData} />
-           {/* <BarChart pollData={pollData}/> */}
-     
-         
-            
-
+            <Divider/>
+          <BarChart pollData={pollData}/> 
             </Flex>
-           
-        
-   
-       
-        
-        
         </>
         
         

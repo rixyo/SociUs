@@ -3,6 +3,7 @@ import {atom} from "recoil"
 
 export interface Team{
     id:string,
+    Name?:string,
     creatorDisplayName:string,
     creatorId:string,
     privacyType: "public" | "private" | "restricted",

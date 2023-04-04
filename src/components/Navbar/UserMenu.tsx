@@ -10,7 +10,7 @@ import { useSignOut } from 'react-firebase-hooks/auth';
 import { auth } from '@/Firebase/clientapp';
 import {useResetRecoilState, useSetRecoilState} from "recoil"
 import { authModalState } from '@/atoms/authModalAtom';
-import Directory from './Directory/Directory';
+
 import { teamState } from '@/atoms/teamAtom';
 import { useRouter } from 'next/router';
 type UserMenuProps = {
@@ -84,7 +84,7 @@ const UserMenu:React.FC<UserMenuProps> = ({User}) => {
   </Flex>
   </MenuItem>
   <MenuDivider/>
-  <Directory />
+
  
   <MenuItem fontSize="10pt" fontWeight={700} _hover={{bg:"blue.500",color:"white"}}
    onClick={Logout}

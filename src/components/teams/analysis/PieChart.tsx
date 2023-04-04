@@ -25,7 +25,7 @@ const PieChart:React.FC<PieChartProps> = ({totalMembers,pollData,postData}) => {
     
     return(
         <>
-        <Flex width="25%">
+        <Flex width="30%">
         <Pie
        data={{
             labels: ['Posts','Polls',"Members"],

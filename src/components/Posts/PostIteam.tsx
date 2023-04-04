@@ -15,6 +15,7 @@ import moment from 'moment';
 import { auth} from '@/Firebase/clientapp';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 ;
 
@@ -61,19 +62,7 @@ const PostIteam:React.FC<PostIteamProps> = ({post,onSelectPost,userVoteValue,onD
         onClick={()=>onSelectPost && onSelectPost(post)} 
         >
            
-            <Flex direction="column" align="center"  bg={singlePostPage? "none" : "gray.100"} p={2} width="40px"
-              borderRadius={singlePostPage ? "0" : "3px 0px 0px 3px"}
-            >
-                <Icon as={userVoteValue===1?IoArrowUpCircleSharp:IoArrowUpCircleOutline} color={userVoteValue===1?"brand.100":"gray.400"} fontSize={22} 
-                onClick={(event)=>onVote(event,post,1,post.teamId)}
-                cursor="pointer"
-                />
-                <Text fontSize="9pt">{post.voteStatus}</Text>
-                <Icon as={userVoteValue===-1? IoArrowDownCircleSharp: IoArrowDownCircleOutline} color={userVoteValue===-1?"#4379ff":"gray.400"} fontSize={22} cursor="pointer" 
-                onClick={(event)=>onVote(event,post,-1,post.teamId)}
-                />
-
-            </Flex>
+          
             <Flex direction="column"width="100%">
                 <Stack spacing={1} padding="10px">
                     <Stack direction="row" spacing={0.6} align="center" fontSize="9pt">
@@ -84,7 +73,9 @@ const PostIteam:React.FC<PostIteamProps> = ({post,onSelectPost,userVoteValue,onD
                  
                     <Text fontSize="10pt">{post?.body}</Text>
                     {post?.linkUrl &&
-                   <a href={post.linkUrl} target="_blank">{post.linkUrl}</a>
+                   <Link href={post?.linkUrl} >
+                    <Text fontSize="13pt">{post?.linkUrl}</Text>
+                   </Link>
                     }
 
                   

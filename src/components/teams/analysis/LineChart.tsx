@@ -9,44 +9,28 @@ type BarChartProps = {
 ChartJS.register(ArcElement, Tooltip, Legend);
 const LineChart:React.FC<BarChartProps> = ({postData}) => {
 
-
-   const [formatedDate,setFormatedDate]=useState<string>("")
-
-   const [totalData,setTotalData]=useState<number>(0)
-
-useEffect((()=>{
-    const total=postData.length
-
-return setTotalData(total)
-
-
-
-
-}),[])
 useEffect(()=>{
     postData.map((item)=>{
-        const myDate = item.createdAt.toDate()
-       const formatedDate = moment(myDate).format('MMMM');
+        console.log(item.title)
+       
     
-        return setFormatedDate(formatedDate)
+       
     })
   
 },[postData])
    
- // const myDate = poll.expirationDate.toDate();
-    //formattedDate = moment(myDate).format('MMMM Do YYYY, h:mm:ss a');
     return (
         <>
         <Flex width="50%">
         <Line
       data={{
-        labels: ["Total Post"],
+        labels: postData.map(item=>item.title),
         datasets: [
             {
-                label: 'Number of Posts',
-                data:[totalData], 
-                backgroundColor: ["#D53F8C","#319795","#805AD5","#0987A0","#2C5282","#285E61","#718096","#B9A2FF"],
-                  borderColor: ["#D53F8C","#319795","#805AD5","#0987A0","#2C5282","#285E61","#718096","#B9A2FF" ],
+                label: 'Vote Status',
+                data:postData.map(item=>item.numberOfComments),
+                backgroundColor: "#D53F8C",
+                  borderColor: "#B9A2FF" ,
                 borderWidth: 2,
 
             },

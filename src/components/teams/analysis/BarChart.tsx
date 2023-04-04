@@ -9,30 +9,9 @@ type BarChartProps = {
 };
 ChartJS.register(ArcElement, Tooltip, Legend);
 const BarChart:React.FC<BarChartProps> = ({pollData}) => {
+    console.log()
   
 
-   const [formatedDate,setFormatedDate]=useState<string>("")
-
-   const [totalData,setTotalData]=useState<number>(0)
-
-useEffect((()=>{
-    const total=pollData.length
-
-return setTotalData(total)
-
-
-
-
-}),[pollData])
-useEffect(()=>{
-    pollData.map((item)=>{
-     
-        const myDate = item.createdAt.toDate()
-       const formatedDate = moment(myDate).format('MMMM');
-        return setFormatedDate(formatedDate)
-    })
-  
-},[pollData])
    
     
     return (
@@ -40,11 +19,11 @@ useEffect(()=>{
         <Flex width="50%">
         <Bar
       data={{
-        labels: ["Total Poll"],
+        labels:pollData.map(item=>item.options.map((i: { value: any; })=>i.value)),
         datasets: [
             {
-                label: 'Number of Polls',
-                data:[totalData], 
+                label: 'Vote Status',
+                data:pollData.map(item=>item.votedUser.length), 
                 backgroundColor: ["#D53F8C","#319795","#805AD5","#0987A0","#2C5282","#285E61","#718096","#B9A2FF"],
                   borderColor: ["#D53F8C","#319795","#805AD5","#0987A0","#2C5282","#285E61","#718096","#B9A2FF" ],
                 borderWidth: 2,
