@@ -3,8 +3,9 @@ import {Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js/auto"
 import moment from 'moment';
 import { Bar, Line } from 'react-chartjs-2';
 import { Flex } from '@chakra-ui/react';
+import { Post } from '@/atoms/postAtom';
 type BarChartProps = {
-    postData:Array<any>,
+    postData:Array<Post>,
 };
 ChartJS.register(ArcElement, Tooltip, Legend);
 const LineChart:React.FC<BarChartProps> = ({postData}) => {

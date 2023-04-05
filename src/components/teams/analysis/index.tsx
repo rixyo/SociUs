@@ -107,7 +107,7 @@ useEffect(()=>{
       <Divider/>
       
             </>
-            <Flex width="100%" height="70vh" maxW="70%"  direction="column" ml={20}  gap={5} alignItems="center" justifySelf="space-between">
+            <Flex width="100%" height="70vh" maxW="70%"  direction="column" ml={20}  gap={5} alignItems="center" >
                 <LineChart postData={postData}/> 
             <Divider/>
           

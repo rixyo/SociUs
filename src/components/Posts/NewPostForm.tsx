@@ -73,7 +73,7 @@ const NewPostForm:React.FC<NewPostFormProps> = ({user}) => {
       }
 
 if(newPost.title.length<=0){
-  setCustomError("Post cannot be null, atleast provide  little hint about your idea");return;
+ throw new Error("Post cannot be null, atleast provide  little hint about your idea")
 }
 
 else{
@@ -95,13 +95,14 @@ else{
         imageUrl:downLoadUrl
       })
     }
-    if(textInputs.url){
+   else if(textInputs.url){
   
       await updateDoc(postDocRef,{
         linkUrl:textInputs.url
       })
     }
 } catch (error:any) {
+  setCustomError(error.message)
 
   console.log(error.message)
   
@@ -124,7 +125,7 @@ router.back()
     
     return (
         <Flex direction="column" bg="white" borderRadius={4} mt={2}>
-            <Flex width="100%" key={Math.random()} >
+            <Flex width="100%" key={Math.random()%100} >
                 {formTabs.map((item)=>(
                       <TabItem  item={item} selected={item.title===selectedTab} setSelectedTab={setSelectedTab} />
                 )

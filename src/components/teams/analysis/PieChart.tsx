@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import {Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js/auto"
 import { Pie } from 'react-chartjs-2';
 import { Flex } from '@chakra-ui/react';
+import { Post } from '@/atoms/postAtom';
 type PieChartProps = {
     totalMembers:number,
-    postData:Array<any>,
+    postData:Array<Post>,
     pollData:Array<any>
     
 };
@@ -30,7 +31,7 @@ const PieChart:React.FC<PieChartProps> = ({totalMembers,pollData,postData}) => {
        data={{
             labels: ['Posts','Polls',"Members"],
             datasets: [{
-                label: 'ToTal',
+                label: 'Total',
                 data: [totalPosts,totalPolls,totalMembers],
             }]
 

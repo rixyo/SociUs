@@ -88,7 +88,7 @@ const About:React.FC<AboutProps> = ({teamData}) => {
 
     
     return (
-        <Box position="sticky" top="14px" >
+        <Box position="sticky" top="14px" key={Math.random()/10} >
             <Flex justify="space-between" align="center" bg="teal.500" color="black" p={3} borderRadius="4px 4px 0px 0px">
                 <Text align="center" fontSize="15pt" fontWeight={700}>About Team</Text>
                 <Icon as={HiOutlineDotsHorizontal} />
@@ -110,7 +110,7 @@ const About:React.FC<AboutProps> = ({teamData}) => {
                    <Flex width="100%" padding={1} fontWeight={500} fontSize="10pt">
                     <Icon as={RiCakeLine} fontSize={18} />
                     {teamData.createdAt && 
-                    <Text ml={2}>Created  {moment(
+                    <Text key="teamDate.createdAt" ml={2}>Created  {moment(
                         new Date(teamData.createdAt!.seconds * 1000)
                       ).format("MMM DD, YYYY")}</Text>
                       
@@ -119,11 +119,11 @@ const About:React.FC<AboutProps> = ({teamData}) => {
                    </Flex>
                    <Flex width="100%" padding={1} fontWeight={500} fontSize="10pt">
                     <Icon as={DiYeoman} fontSize={18} />
-                    <Text ml={2}>Team Leader {teamData.creatorDisplayName.split("@")[0]}</Text>
+                    <Text key="teamLeader" ml={2}>Team Leader {teamData.creatorDisplayName.split("@")[0]}</Text>
                    </Flex>
                    <Flex width="100%" padding={1} fontWeight={500} fontSize="10pt">
                     <Icon as={SiGnuprivacyguard} fontSize={18} />
-                    <Text ml={2}>Type:  {teamData.privacyType}</Text>
+                    <Text key="teamType" ml={2}>Type:  {teamData.privacyType}</Text>
                    </Flex>
                    <Flex width="100%" p={3} fontWeight={700} fontSize="15pt" bg="teal.500">
                     <Text color="black" >Repository & Communication</Text>
@@ -132,16 +132,16 @@ const About:React.FC<AboutProps> = ({teamData}) => {
                    <Flex width="100%" padding={1} fontWeight={500} fontSize="10pt" align="center" >
                     <Icon as={GoRepo} fontSize={18}  />
                     { teamData.githubRepo && teamData.githubRepo?.map((repo,index)=>(
-                        <Link href={repo}>
-                          <Text _hover={{textDecoration:"underline"}} ml={2}>repo:  {repo}</Text>
+                        <Link href={repo} key="githubrepo">
+                          <Text _hover={{textDecoration:"underline"}} key={index} ml={2}>repo:  {repo}</Text>
                         </Link>
                     ))}
                    </Flex>
                    <Flex width="100%" padding={1} fontWeight={500} fontSize="10pt" align="center" >
                     <Icon as={FaCommentDots} fontSize={18}  />
                     { teamData.communicationChannel && teamData.communicationChannel?.map((url,index)=>(
-                        <Link href={url}>
-                          <Text _hover={{textDecoration:"underline"}} ml={2}> channel:  {url}</Text>
+                        <Link href={url} key={index}>
+                          <Text _hover={{textDecoration:"underline"}} key="channelUrl" ml={2}> channel:  {url}</Text>
                         </Link>
                     ))}
                    </Flex>
@@ -150,6 +150,7 @@ const About:React.FC<AboutProps> = ({teamData}) => {
                 
                  <Button mt={3} height="30px"
                     onClick={onClickLink}
+                    key="addLink"
                  >
                   Add Link
                  </Button>
@@ -157,7 +158,7 @@ const About:React.FC<AboutProps> = ({teamData}) => {
                  }  
                    {user?.uid==teamData.creatorId &&
                    
-                    <Button mt={3} height="30px" onClick={onClick}>
+                    <Button mt={3} height="30px" onClick={onClick} key="teamCreatorId">
                         <Icon as ={IoMdAnalytics} fontSize={18} />
                         <Text ml={2}>Analytics</Text>
                    
@@ -169,7 +170,7 @@ const About:React.FC<AboutProps> = ({teamData}) => {
                    {user?.uid==teamData.creatorId &&
                    <>
                      <Divider/>
-                     <Stack spacing={1} fontSize="10pt">
+                     <Stack spacing={1} fontSize="10pt" key="adminPart">
                         <Text fontWeight={600}>Team Leader</Text>
                         <Flex align="center" justify="space-between" >
                             <Text color="teal.500" cursor="pointer" _hover={{textDecoration:"underline"}}

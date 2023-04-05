@@ -1,12 +1,14 @@
 import PageContent from '@/components/Layout/PageContent'
-import CreatePostLink from '@/components/teams/CreatePostLink'
+
 import type { NextPage } from 'next'
-import CreateProfilePostLink from './post/createProfilePostLink'
+import CreatePostLink from './ProfilePost/CreatePostLink'
+
 const Home: NextPage = () => {
   return(
    <PageContent>
     <>
-    <CreateProfilePostLink />
+    <CreatePostLink/>
+   
     </>
     <>LHS</>
    </PageContent>

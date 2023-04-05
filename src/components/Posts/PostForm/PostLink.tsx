@@ -39,7 +39,7 @@ const PostLink:React.FC<PostLinkProps> = ({onChange,textInputs,setSelectedTab,lo
              padding="0px 30px"
             isLoading={loading}
             onClick={() => setSelectedTab("Post")}
-            >Back To Home</Button>
+            >Back To Post</Button>
                 
             </Flex>
             
