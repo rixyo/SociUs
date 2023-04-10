@@ -62,7 +62,38 @@ const PostIteam:React.FC<PostIteamProps> = ({post,onSelectPost,userVoteValue,onD
         onClick={()=>onSelectPost && onSelectPost(post)} 
         >
            
-          
+           <Flex
+        direction="column"
+        align="center"
+        bg={singlePostPage ? "none" : "gray.100"}
+        p={2}
+        width="40px"
+        borderRadius={singlePostPage ? "0" : "3px 0px 0px 3px"}
+      >
+        <Icon
+          as={
+            userVoteValue === 1 ? IoArrowUpCircleSharp : IoArrowUpCircleOutline
+          }
+          color={userVoteValue === 1 ? "brand.100" : "gray.400"}
+          fontSize={22}
+          cursor="pointer"
+          onClick={(event) => onVote(event, post, 1, post.teamId)}
+        />
+        <Text fontSize="9pt" fontWeight={600}>
+          {post.voteStatus}
+        </Text>
+        <Icon
+          as={
+            userVoteValue === -1
+              ? IoArrowDownCircleSharp
+              : IoArrowDownCircleOutline
+          }
+          color={userVoteValue === -1 ? "#4379FF" : "gray.400"}
+          fontSize={22}
+          cursor="pointer"
+          onClick={(event) => onVote(event, post, -1, post.teamId)}
+        />
+      </Flex>
             <Flex direction="column"width="100%">
                 <Stack spacing={1} padding="10px">
                     <Stack direction="row" spacing={0.6} align="center" fontSize="9pt">

@@ -11,10 +11,11 @@ import { addDoc, collection, serverTimestamp, Timestamp, updateDoc } from 'fireb
 import { fireStore, storage } from '@/Firebase/clientapp';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { useRouter } from 'next/router';
-import TabItem from '../TabItem';
+
 import TextInput from './PostTextInput';
 import ImageUpload from './ImageUpload';
 import PostLink from './PostLink';
+import TabItem from '../TabItem';
 
 type indexProps = {
     user: User

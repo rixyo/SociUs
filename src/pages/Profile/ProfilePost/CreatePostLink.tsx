@@ -23,7 +23,7 @@ const CreatePostLink: React.FC<CreatePostProps> = () => {
           return;
 
         }
-        router.push("/ProfilePost/")
+        router.push("/Profile/ProfilePost")
         
     
       };

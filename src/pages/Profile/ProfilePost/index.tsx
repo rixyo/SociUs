@@ -2,7 +2,8 @@ import { auth } from '@/Firebase/clientapp';
 import { Box,Text } from '@chakra-ui/react';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import NewProfilePostForm from './Posts/PostForm/NewProfilePostFrom';
+import NewProfilePostForm from './PostForm/NewProfilePostFrom';
+
 
 type indexProps = {
   

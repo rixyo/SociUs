@@ -32,7 +32,7 @@ const defaultPostState:ProfilePostState={
     postVotes:[]
 
 }
-export const postState=atom<ProfilePostState>({
+export const profilePostState=atom<ProfilePostState>({
     key:"Profile Post State",
     default: defaultPostState
 })

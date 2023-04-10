@@ -126,17 +126,9 @@ const About:React.FC<AboutProps> = ({teamData}) => {
                     <Text key="teamType" ml={2}>Type:  {teamData.privacyType}</Text>
                    </Flex>
                    <Flex width="100%" p={3} fontWeight={700} fontSize="15pt" bg="teal.500">
-                    <Text color="black" >Repository & Communication</Text>
+                    <Text color="black" >Usefull Link</Text>
                    </Flex>
                  
-                   <Flex width="100%" padding={1} fontWeight={500} fontSize="10pt" align="center" >
-                    <Icon as={GoRepo} fontSize={18}  />
-                    { teamData.githubRepo && teamData.githubRepo?.map((repo,index)=>(
-                        <Link href={repo} key="githubrepo">
-                          <Text _hover={{textDecoration:"underline"}} key={index} ml={2}>repo:  {repo}</Text>
-                        </Link>
-                    ))}
-                   </Flex>
                    <Flex width="100%" padding={1} fontWeight={500} fontSize="10pt" align="center" >
                     <Icon as={FaCommentDots} fontSize={18}  />
                     { teamData.communicationChannel && teamData.communicationChannel?.map((url,index)=>(

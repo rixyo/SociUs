@@ -8,7 +8,7 @@ import {FaCommentDots} from 'react-icons/fa';
 import { GoRepo } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
 import LinkTabItem from './LinkTabItem';
-import TextInput from './GithubInput';
+
 import SlackInput from './SlackInput';
 type LinkFormProps = {
     
@@ -18,11 +18,7 @@ export type TabItem={
     icon: typeof Icon.arguments
 }
 const formTabs:TabItem[]=[
-    {
-        title: "GitHub Repo",
-        icon: GoRepo
-
-    },
+  
     {
         title: "communication Channel",
         icon:FaCommentDots
@@ -128,9 +124,7 @@ const LinkForm:React.FC<LinkFormProps> = () => {
                
         </Flex>
         <Flex p={4} key={Math.random()}>
-                {selectedTab==="GitHub Repo"&&
-                <TextInput github={github}  handleAddLink={handleAddLink} onChange={onTextChange} loading={loading} />
-        }
+               
         {selectedTab==="communication Channel" && 
         <SlackInput communicationWay={communicationWay} onChange={onTextChange} loading={loading} handleCommunicationWay={handleAddCommunicationWay}  />
     }
