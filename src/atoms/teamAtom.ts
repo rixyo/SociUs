@@ -23,11 +23,13 @@ export interface TeamSnippet{
 interface TeamState{
     mySnippets: TeamSnippet[],
     currentTeam?:Team
+    snippetsFeatchStatus:boolean
 
 
 }
 const defaultTeamState:TeamState={
-    mySnippets:[]
+    mySnippets:[],
+    snippetsFeatchStatus:false
 }
 export const teamState=atom<TeamState>({
     key:"teamsStates",

@@ -12,11 +12,11 @@ import { IoArrowDownCircleOutline, IoArrowDownCircleSharp, IoArrowRedoOutline, I
 
 type PostItemsProps = {
     post:ProfilePost,
-    isCreator:boolean,
+    creatorId:string,
     
 };
 
-const PostItems:React.FC<PostItemsProps> = ({post,isCreator}) => {
+const PostItems:React.FC<PostItemsProps> = ({post,creatorId}) => {
     const [loading,setLoading]=useState<boolean>(true)
     const [user]=useAuthState(auth)
     return (
@@ -101,7 +101,7 @@ const PostItems:React.FC<PostItemsProps> = ({post,isCreator}) => {
                        <Text fontSize="9pt">Save</Text>
                     
                    </Flex>
-                   {isCreator&& 
+                   {creatorId===user?.uid && 
                    <Flex align="center" p="8px 10px" borderRadius={4} _hover={{bg:"gray.200"}} cursor="pointer" >
                        <Icon as={AiOutlineDelete} fontSize={18} mr={2} 
                        />

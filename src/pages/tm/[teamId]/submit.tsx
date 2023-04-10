@@ -21,7 +21,7 @@ const SubmitPostPage:React.FC = () => {
             <Box p="14px 0" borderBottom="1px solid white">
                 <Text>Create Post</Text>
              {user&&
-             <NewPostForm user={user} />
+             <NewPostForm user={user} teamImageUrl={teamStateValue.currentTeam?.imageUrl} />
              }   
                 </Box>
                 </>

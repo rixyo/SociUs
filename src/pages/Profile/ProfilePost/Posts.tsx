@@ -46,7 +46,7 @@ const Posts:React.FC<Props> = ({user}) => {
         {loading ?( <PostLoader />) :(
               <Stack>
               {postStateValue.posts.map(item=>(
-                   <PostItems key={item.body+Math.random()} post={item} isCreator={item.creatorId===user?.uid}
+                   <PostItems key={item.body+Math.random()} post={item} creatorId={item.creatorId}
                    
 
                      />

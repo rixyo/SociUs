@@ -46,8 +46,10 @@ const useTeamData= () => {
                 ...doc.data()
             }))
             setTeamStateValue(prev=>({
-                ...prev,mySnippets:snippet as TeamSnippet[]
+                ...prev,mySnippets:snippet as TeamSnippet[],
+                snippetsFeatchStatus:true
             }))
+            
             
             
         } catch (error:any) {

@@ -1,5 +1,5 @@
 
-import { Menu, MenuButton, MenuList, MenuItem, Icon, Flex, MenuDivider, Text, Box, Avatar, WrapItem,Image } from '@chakra-ui/react';
+import { Menu, MenuButton, MenuList, MenuItem, Icon, Flex, MenuDivider, Text, Box, Avatar, WrapItem,Image, Button } from '@chakra-ui/react';
 import { User } from 'firebase/auth';
 import React from 'react';
 import { VscAccount } from "react-icons/vsc";
@@ -13,6 +13,7 @@ import { authModalState } from '@/atoms/authModalAtom';
 
 import { teamState } from '@/atoms/teamAtom';
 import { useRouter } from 'next/router';
+import { AiOutlineHome } from 'react-icons/ai';
 type UserMenuProps = {
     User?:User | null
     
@@ -76,14 +77,36 @@ const UserMenu:React.FC<UserMenuProps> = ({User}) => {
   <MenuList>
     {User?(
       <>
-       <MenuItem fontSize="10pt" fontWeight={700} _hover={{bg:"blue.500",color:"white"}}>
-  <Flex align="center" onClick={()=>router.push("/Profile")}>
-      <Icon  as={CgProfile} fontSize={20}  mr={2}/>
-      Profile
+      <MenuItem fontSize="10pt" fontWeight={700} _hover={{color:"white"}} display={{lg:"none",base:"unset"}} >
+      <Button
+    key={"HomeButton"}
+      variant="outline"
+      height="28px"
+     onClick={()=>router.push("/")} 
+      
+  >
+    <Icon  as={AiOutlineHome} fontSize={20}  mr={2}/>
+      <Text>Home</Text>
+    </Button>
+      </MenuItem>
 
-  </Flex>
+       <MenuItem fontSize="10pt" fontWeight={700} _hover={{color:"white"}}>
+    
+    <Button
+    key={"profileButton"}
+      variant="outline"
+      height="28px"
+     onClick={()=>router.push("/Profile")} 
+      
+  >
+    <Icon  as={CgProfile} fontSize={20}  mr={2}/>
+      <Text>Profile</Text>
+    </Button>
+        
+      
+ 
   </MenuItem>
-  <MenuDivider/>
+
 
  
   <MenuItem fontSize="10pt" fontWeight={700} _hover={{bg:"blue.500",color:"white"}}

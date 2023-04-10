@@ -18,7 +18,8 @@ import useSelectFile from '../hooks/useSelectFile';
 
 
 type NewPostFormProps = {
-  user:User
+  user:User,
+  teamImageUrl?:string
     
 };
 export type TabItem = {
@@ -44,7 +45,7 @@ const formTabs:TabItem[]=[
       },
    
 ]
-const NewPostForm:React.FC<NewPostFormProps> = ({user}) => {
+const NewPostForm:React.FC<NewPostFormProps> = ({user,teamImageUrl}) => {
   const router=useRouter()
   const {teamId}=router.query
   
@@ -62,6 +63,7 @@ const NewPostForm:React.FC<NewPostFormProps> = ({user}) => {
     const handleCreatePost=async()=>{
       const newPost:Post={
         teamId: teamId as string,
+        teamImageUrl:teamImageUrl || " ",
         creatorId: user.uid,
         creatorDisplayName: user.email!.split('@')[0],
         title: textInputs.title,

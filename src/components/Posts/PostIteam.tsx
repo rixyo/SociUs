@@ -1,7 +1,7 @@
 import { Post, postState } from '@/atoms/postAtom';
 import React, { useState } from 'react';
 import { AiOutlineDelete } from "react-icons/ai";
-import { BsChat} from "react-icons/bs";
+import { BsChat, BsDot} from "react-icons/bs";
 import {
   IoArrowDownCircleOutline,
   IoArrowDownCircleSharp,
@@ -16,8 +16,7 @@ import { auth} from '@/Firebase/clientapp';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
-;
+import {GiDove} from "react-icons/gi"
 
 type PostIteamProps = {
     post:Post,
@@ -26,12 +25,13 @@ type PostIteamProps = {
    userVoteValue?:number,
    onVote:(event:React.MouseEvent<SVGElement,MouseEvent>,post:Post,vote:number,teamId:string)=>void
    onDeletePost:(post:Post)=>Promise<boolean>
+   homePage?:boolean
     
 
 };
 
 
-const PostIteam:React.FC<PostIteamProps> = ({post,onSelectPost,userVoteValue,onDeletePost,onVote}) => {
+const PostIteam:React.FC<PostIteamProps> = ({post,onSelectPost,userVoteValue,onDeletePost,onVote,homePage}) => {
    const router=useRouter()
     const [user]=useAuthState(auth)
     const [loading,setLoading]=useState<boolean>(true)
@@ -98,7 +98,28 @@ const PostIteam:React.FC<PostIteamProps> = ({post,onSelectPost,userVoteValue,onD
                 <Stack spacing={1} padding="10px">
                     <Stack direction="row" spacing={0.6} align="center" fontSize="9pt">
                         {/** Check Homepage or not */}
-                        <Text>Posted by tm/{post?.creatorDisplayName} {moment(new Date(post.createdAt?.seconds*1000)).fromNow()}</Text>
+                        {homePage &&(
+                            <>
+                            {post.teamImageUrl ? (
+                                <Image src={post.teamImageUrl} borderRadius="full" boxSize="20px" mr={2} />
+                            ):(
+                                <Icon as={GiDove} fontSize="18pt" mr={1} color="teal.500" />
+                            )}
+                            <Link href={`tm/${post.teamId}`}>
+                                <Text fontWeight={600}
+                                _hover={{textDecoration:"underline",cursor:"pointer"}}
+                                onClick={(event)=>event.stopPropagation()}
+
+                                >
+                                  {`tm/${post.teamId}`}  
+                                </Text>
+                            </Link>
+                            <Icon as={BsDot} color="gray.500" fontSize={8} />
+                            {}
+
+                            </>
+                        )}
+                        <Text display={{base:"none",md:"unset"}}>Posted by u/{post?.creatorDisplayName} {moment(new Date(post.createdAt?.seconds*1000)).fromNow()}</Text>
                     </Stack>
                     <Text fontStyle="12pt" fontWeight={600}>{post.title}</Text>
                  
