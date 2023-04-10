@@ -7,7 +7,7 @@ export default function PageContent({
   }) {
     
     return (
-        <Flex justify="center" p="16px 0px">
+        <Flex justify="center" padding="16px 0px">
         <Flex width="95%" justify="center" maxWidth={"900px"}
         >
           <Flex
