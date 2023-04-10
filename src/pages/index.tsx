@@ -110,7 +110,12 @@ const Home: NextPage = () => {
 
   },[user,loadinUser])
   return(
-   <PageContent>
+   <PageContent
+   maxWidth= "900px"
+    justify= "center"
+    padding= "16px"
+    width= "95%"
+   >
     <>
     <CreatePostLink/>
     {!user && !loadinUser &&(

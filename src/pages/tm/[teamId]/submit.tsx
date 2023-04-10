@@ -16,7 +16,12 @@ const SubmitPostPage:React.FC = () => {
   
     
     return (
-        <PageComponent>
+        <PageComponent
+        maxWidth= "900px"
+    justify= "center"
+    padding= "16px"
+    width= "95%"
+        >
             <>
             <Box p="14px 0" borderBottom="1px solid white">
                 <Text>Create Post</Text>

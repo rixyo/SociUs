@@ -77,7 +77,10 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
       
     {isJoined && privacyType==="private" &&
       <>
-      <PageContent>
+      <PageContent maxWidth= "900px"
+    justify= "center"
+    padding= "16px"
+    width= "95%" >
       <>
       <CreatePostLink/>
      
@@ -103,7 +106,12 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
     }
     {privacyType==="public" &&
         <>
-        <PageContent>
+        <PageContent
+        maxWidth= "900px"
+        justify= "center"
+        padding= "16px"
+        width= "95%"
+         >
         <>
         <CreatePostLink/>
        
