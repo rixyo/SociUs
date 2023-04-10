@@ -54,20 +54,20 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
       const isJoined = !!joinedMember.find(
         (item) => item ===user?.uid
       );
-   if(!teamData){
-    return(
-        <>
-        <TeamNotFound/>
-        </>
-        
-    )
-   }
-   useEffect(() => {
-    setTeamStateValue((prev) => ({
-      ...prev,
-      currentTeam: teamData,
-    }));
-  }, [teamData]);
+      useEffect(() => {
+        setTeamStateValue((prev) => ({
+          ...prev,
+          currentTeam: teamData,
+        }));
+      }, [teamData]);
+      if(!teamData){
+       return(
+           <>
+           <TeamNotFound/>
+           </>
+           
+       )
+      }
 
     return(
        <>
