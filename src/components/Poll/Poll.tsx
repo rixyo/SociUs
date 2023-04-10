@@ -219,10 +219,10 @@ if(optionValue.option5!==""){
          
         ))}
                    
-      <Flex align="center" justify="space-between">
+      <Flex align="center" justify={{base:"space-around",lg:"space-between"}} >
                 <Button
                  height="34px"
-                
+                marginRight={{base:"5px",lg:"0px"}}
                  padding="0px 30px"
               onClick={handleAddOption}
                 >Add option</Button>

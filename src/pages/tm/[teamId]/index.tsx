@@ -6,16 +6,15 @@ import { Team, teamState } from '@/atoms/teamAtom';
 import safeJsonStringify from "safe-json-stringify"
 import TeamNotFound from '@/components/teams/notFound';
 import Header from '@/components/teams/header';
-import PageComponent from '@/components/Layout/PageContent';
 import CreatePostLink from '@/components/teams/CreatePostLink';
 import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Posts from '@/components/Posts/Posts';
 import Polls from '@/components/Poll/Polls';
-import { Stack } from '@chakra-ui/react';
+import { Box, Flex, Stack } from '@chakra-ui/react';
 import { useSetRecoilState } from 'recoil';
 import About from '@/components/teams/About';
-import PageContent from '@/components/Layout/PageContent';
+
 
 
 type teamProps = {
@@ -26,9 +25,10 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
     const router = useRouter();
       const {teamId}=router.query
       const [joinedMember, setJoinedMember] = useState<string[]>([]);
-      const[privacyType,setPrivacyType]=useState("")
+      const[privacyType,setPrivacyType]=useState<string>("")
       const [user]=useAuthState(auth)
     const setTeamStateValue=useSetRecoilState(teamState)
+    const maxWidth = '800px'
 
       if(teamId){
         useEffect(()=>{
@@ -76,12 +76,13 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
      
       
     {isJoined && privacyType==="private" &&
-      <>
-      <PageContent maxWidth= "900px"
-    justify= "center"
-    padding= "16px"
-    width= "95%" >
-      <>
+      <Flex justify="center" padding="16px">
+      <Flex width="95%" justify="center" maxWidth={maxWidth || "860px"}  >
+      <Flex
+       direction="column"
+       width={{ base: "100%", md: "65%" }}
+       mr={{ base: 0, md: 6 }}
+       >
       <CreatePostLink/>
      
       <Stack gap={2}>
@@ -92,27 +93,26 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
       </Stack>
    
     
-      </>
+      </Flex>
+      <Box   display={{ base: "none", md: "flex" }}
+          flexDirection="column"
+          flexGrow={1}>
+
       <About teamData={teamData} />
+      </Box>
      
-      <>
-     
-   
-     
-      </>
+
       
-  </PageContent>
-          </>
+  </Flex>
+          </Flex>
     }
     {privacyType==="public" &&
-        <>
-        <PageContent
-        maxWidth= "900px"
-        justify= "center"
-        padding= "16px"
-        width= "95%"
-         >
-        <>
+        <Flex justify="center" padding="16px">
+        <Flex width="95%" justify="center" maxWidth={maxWidth || "860px"} >
+        <Flex
+       direction="column"
+       width={{ base: "100%", md: "65%" }}
+       mr={{ base: 0, md: 6 }}>
         <CreatePostLink/>
        
         <Stack gap={2}>
@@ -123,17 +123,20 @@ const TeamPage:NextPage<teamProps> = ({teamData}) => {
         </Stack>
      
       
-        </>
+        </Flex>
+        <Box   display={{ base: "none", md: "flex" }}
+            flexDirection="column"
+            flexGrow={1}>
         <About teamData={teamData} />
-       
+       </Box>
         <>
        
      
        
         </>
         
-    </PageContent>
-            </>
+    </Flex>
+            </Flex>
     }
     
 

@@ -1,4 +1,4 @@
-import PageContent from '@/components/Layout/PageContent'
+
 import { auth, fireStore } from '@/Firebase/clientapp'
 import { use, useState } from 'react'
 import type { NextPage } from 'next'
@@ -9,18 +9,18 @@ import { query, collection, orderBy, limit, getDocs, where } from 'firebase/fire
 import usePost from '@/components/hooks/usePost'
 import { Post, postVote } from '@/atoms/postAtom'
 import PostLoader from '@/components/Posts/PostLoader'
-import { Stack } from '@chakra-ui/react'
+import { Box, Flex, Stack } from '@chakra-ui/react'
 import PostIteam from '@/components/Posts/PostIteam'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { ProfilePost, profilePostState } from '@/atoms/profilePostAtom'
 import PostItems from './Profile/ProfilePost/PostItems'
-import { teamState } from '@/atoms/teamAtom'
 import useTeamData from '@/components/hooks/useTeamData'
 import { useRouter } from 'next/router'
 import Recommendation from '@/components/teams/Recommendation'
 
 const Home: NextPage = () => {
   const [user,loadinUser]=useAuthState(auth)
+  const maxWidth = '800px'
   const [profilePostStateValue,setProfilePostStateValue]=useRecoilState(profilePostState)
   const {postStateValue,setPostStateValue,OnSelectPost,onDeletePost,onVote}=usePost()
   const router=useRouter()
@@ -110,13 +110,11 @@ const Home: NextPage = () => {
 
   },[user,loadinUser])
   return(
-   <PageContent
-   maxWidth= "900px"
-    justify= "center"
-    padding= "16px"
-    width= "95%"
-   >
-    <>
+   <Flex justify="center" padding="16px 0px">
+    <Flex width="95%" justify="center" maxWidth={maxWidth || "860px"}>
+      <Flex  direction="column"
+          width={{ base: "100%", md: "65%" }}
+          mr={{ base: 0, md: 6 }}>
     <CreatePostLink/>
     {!user && !loadinUser &&(
       <>
@@ -158,11 +156,15 @@ const Home: NextPage = () => {
       </>
     )}
     
-    </>
-    <>
+    </Flex>
+    <Box
+     display={{ base: "none", md: "flex" }}
+     flexDirection="column"
+     flexGrow={1}>
     <Recommendation/>
-    </>
-   </PageContent>
+    </Box>
+    </Flex>
+   </Flex>
   )
 
 }

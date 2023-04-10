@@ -1,10 +1,11 @@
 import { Team, teamState } from '@/atoms/teamAtom';
-import { fireStore } from '@/Firebase/clientapp';
+import { auth, fireStore } from '@/Firebase/clientapp';
 import { Flex, Stack, SkeletonCircle, Skeleton, Icon, Button,Box,Image,Text } from '@chakra-ui/react';
 import { query, collection, orderBy, limit, getDocs } from 'firebase/firestore';
 
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import {GiDove} from "react-icons/gi"
 
 import useTeamData from '../hooks/useTeamData';
@@ -13,6 +14,7 @@ const Recommendation:React.FC = () => {
     const {teamStateValue,onJoinOrLeaveTeam}=useTeamData()
     const [team,setTeam]=useState<Team[]>([])
     const [loading,setLoading]=useState<boolean>(false)
+    const [user]=useAuthState(auth)
     
   
     const topTeamsRecommendation = async()=>{
@@ -120,7 +122,7 @@ const Recommendation:React.FC = () => {
                           >{`tm/${item.id}`}</span>
                         </Flex>
                       </Flex>
-                      <Box position="absolute" right="10px">
+                 {user &&   <Box position="absolute" right="10px">
                         <Button
                           height="22px"
                           fontSize="8pt"
@@ -133,6 +135,7 @@ const Recommendation:React.FC = () => {
                           {isJoined ? "Joined" : "Join"}
                         </Button>
                       </Box>
+              }
                     </Flex>
                   </Link>
                 );

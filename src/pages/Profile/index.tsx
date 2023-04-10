@@ -1,4 +1,4 @@
-import PageContent from '@/components/Layout/PageContent';
+
 import { auth, fireStore } from '@/Firebase/clientapp';
 import { Avatar, Badge, Box, Button, Divider, Flex,Icon,Image,Text} from '@chakra-ui/react';
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
