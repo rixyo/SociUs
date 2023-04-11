@@ -1,4 +1,5 @@
 
+import CreateProfilePostLink from '@/components/ProfilePost/CreateProfilePostLink';
 import { auth, fireStore } from '@/Firebase/clientapp';
 import { Avatar, Badge, Box, Button, Divider, Flex,Icon,Image,Text} from '@chakra-ui/react';
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
@@ -42,11 +43,8 @@ const index:React.FC= () => {
   },[user])
     return(
    
-        <>
-        <Flex width="100%"  height="100vh" direction="column" alignItems="center" >
-
-  
-          
+        <Flex  width="100%"  height="100vh" direction="column" alignItems="center">
+        
             <Flex direction="column" width={{base:"auto",md:"40%"}} border="1px solid" alignItems="center" mt={5}  bg="white" borderColor="gray.300" borderRadius={4}  mb={10}  >
             <Avatar name={user?.displayName! || user?.email?.split("@")[0]} mr={2} mt={5}/>
                 <Text fontSize="10pt" fontWeight={600} color="gray.500" mt={2}>{user?.displayName 
@@ -102,24 +100,22 @@ const index:React.FC= () => {
                 fontSize="10pt"
                
                 >Connect</Button>
-               </Flex>
-              
-            </Flex>
-            <Divider/>
-           
-
-            <Divider/>
-            <Text fontSize="20pt" mb={5}>{user?.displayName || user?.email?.split("@")[0]} 's Activity</Text>
-        
-    
-
+               </Flex> 
       
+        </Flex>
+        <Flex direction="column" width={{base:"auto",md:"40%"}} border="1px solid" alignItems="center" mt={5}  bg="white" borderColor="gray.300" borderRadius={4} p={5}  mb={10}>
+       <CreateProfilePostLink/>
+
+        </Flex>
+        <Flex direction="column" width={{base:"auto",md:"40%"}} border="1px solid" alignItems="center" mt={5}  bg="white" borderColor="gray.300" borderRadius={4} p={3}  mb={10}>
+        <Text fontSize="20pt" mb={5}>{user?.displayName || user?.email?.split("@")[0]} 's Activity</Text>
+
         </Flex>
       
       
      
         
-        </>
+        </Flex>
      
     )
 }

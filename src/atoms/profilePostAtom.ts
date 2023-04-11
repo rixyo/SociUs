@@ -2,34 +2,31 @@ import { Timestamp } from "firebase/firestore";
 import { atom } from "recoil";
 export interface ProfilePost{
     id?:string,
-    creatorId:string,
+    createdBy:string,
     creatorDisplayName:string,
-    title:string,
-    body:string,
-    imageUrl?:string,
+    name:string,
+    about:string,
+    imageLink?:string,
     numberOfComments:number,
-    voteStatus?:number,
+    likes:number,
     createdAt: Timestamp,
-    linkUrl?:string,
-  
-
 }
 
-export type postVote={
+export type postLike={
     id:string,
     postId:string,
-    voteValue:number,
+    Likes:number,
 
 }
 interface ProfilePostState{
     selectedPost: ProfilePost|null,
     posts:ProfilePost[],
-    postVotes:postVote[]
+    postLikes:postLike[]
 }
 const defaultPostState:ProfilePostState={
     selectedPost:null,
     posts:[],
-    postVotes:[]
+    postLikes:[]
 
 }
 export const profilePostState=atom<ProfilePostState>({

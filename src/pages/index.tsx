@@ -17,6 +17,7 @@ import { ProfilePost, profilePostState } from '@/atoms/profilePostAtom'
 import useTeamData from '@/components/hooks/useTeamData'
 import { useRouter } from 'next/router'
 import Recommendation from '@/components/teams/Recommendation'
+import CreateProfilePostLink from '@/components/ProfilePost/CreateProfilePostLink'
 
 const Home: NextPage = () => {
   const [user,loadinUser]=useAuthState(auth)
@@ -59,7 +60,7 @@ const Home: NextPage = () => {
     setLoading(true)
   
     try {
-      const postQuery= query(collection(fireStore,"profilePosts"),orderBy("createdAt","desc"),limit(10))
+      const postQuery= query(collection(fireStore,"posts"),orderBy("createdAt","desc"),limit(10))
       const postDocs=await getDocs(postQuery)
       const posts=postDocs.docs.map((doc)=>({
         id:doc.id, ...doc.data()
@@ -118,10 +119,10 @@ const Home: NextPage = () => {
     
    
       <>
-    
+    <CreateProfilePostLink/>
       </>
   
-    {user && !loadinUser &&(
+
       <>
       {loading?(
         <PostLoader/>
@@ -145,7 +146,7 @@ const Home: NextPage = () => {
 
       )}
       </>
-    )}
+   
     
     </Flex>
     <Box

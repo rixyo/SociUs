@@ -1,19 +1,17 @@
-
-import { authModalState } from "@/atoms/authModalAtom";
-import { auth } from "@/Firebase/clientapp";
-import { Flex, Icon, Input } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { BsLink45Deg } from "react-icons/bs";
-import {GiDove} from "react-icons/gi"
-import { IoImageOutline } from "react-icons/io5";
-import { useSetRecoilState } from "recoil";
-
+import { authModalState } from '@/atoms/authModalAtom';
+import { auth } from '@/Firebase/clientapp';
+import { Flex, Icon, Input } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { BsLink45Deg } from 'react-icons/bs';
+import { GiDove } from 'react-icons/gi';
+import { IoImageOutline } from 'react-icons/io5';
+import { useSetRecoilState } from 'recoil';
 
 
 
-const CreatePostLink: React.FC= () => {
+const CreateProfilePostLink:React.FC = () => {
     const router = useRouter();
     const [user]=useAuthState(auth)
     const setAuthModalState=useSetRecoilState(authModalState)
@@ -23,18 +21,17 @@ const CreatePostLink: React.FC= () => {
           return;
 
         }
-
-        const { teamId } = router.query;
-        if (teamId) {
-          router.push(`/tm/${router.query.teamId}/submit`);
-          return;
-        }
+        
+          router.push("/Profile/post");
+       
+       
         
     
       };
-
-  return (
-    <Flex
+    
+    return (
+        <>
+         <Flex
       justify="space-evenly"
       align="center"
       bg="white"
@@ -77,6 +74,8 @@ const CreatePostLink: React.FC= () => {
       />
       <Icon as={BsLink45Deg} fontSize={24} color="gray.400" cursor="pointer" />
     </Flex>
-  );
-};
-export default CreatePostLink;
+
+        </>
+    )
+}
+export default CreateProfilePostLink;
