@@ -1,5 +1,6 @@
 
 import CreateProfilePostLink from '@/components/ProfilePost/CreateProfilePostLink';
+import ProfilePosts from '@/components/ProfilePost/ProfilePosts';
 import { auth, fireStore } from '@/Firebase/clientapp';
 import { Avatar, Badge, Box, Button, Divider, Flex,Icon,Image,Text} from '@chakra-ui/react';
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore';
@@ -19,6 +20,7 @@ const index:React.FC= () => {
   const [bio,setBio]=useState<string>('')
   const [location,setLocation]=useState<string>('')
   const [living,setLiving]=useState<string>('')
+  const [image,setImage]=useState<string>('')
   const router=useRouter()
  
   const getUserInfo=async()=>{
@@ -33,7 +35,9 @@ const index:React.FC= () => {
       doc.data().bio && setBio(doc.data().bio)
       doc.data().location && setLocation(doc.data().location)
       doc.data().living && setLiving(doc.data().living)
-      return {setCompany,setDesication,setBio,setLocation,setLiving}
+      doc.data().imageLink && setImage(doc.data().imageLink)
+      console.log(doc.data())
+      return {setCompany,setDesication,setBio,setLocation,setLiving ,setImage}
     
     })
   }
@@ -46,7 +50,7 @@ const index:React.FC= () => {
         <Flex  width="100%"  height="100vh" direction="column" alignItems="center">
         
             <Flex direction="column" width={{base:"auto",md:"40%"}} border="1px solid" alignItems="center" mt={5}  bg="white" borderColor="gray.300" borderRadius={4}  mb={10}  >
-            <Avatar name={user?.displayName! || user?.email?.split("@")[0]} mr={2} mt={5}/>
+         <Image src={image} width="100px" height="100px" borderRadius="full" />
                 <Text fontSize="10pt" fontWeight={600} color="gray.500" mt={2}>{user?.displayName 
             ||  user?.email?.split('@')[0]}
                
@@ -103,12 +107,14 @@ const index:React.FC= () => {
                </Flex> 
       
         </Flex>
-        <Flex direction="column" width={{base:"auto",md:"40%"}} border="1px solid" alignItems="center" mt={5}  bg="white" borderColor="gray.300" borderRadius={4} p={5}  mb={10}>
+        <Flex direction="column" width={{base:"auto",md:"40%"}} alignItems="center" mt={5}  bg="white"  p={5}  mb={10}>
        <CreateProfilePostLink/>
-
         </Flex>
-        <Flex direction="column" width={{base:"auto",md:"40%"}} border="1px solid" alignItems="center" mt={5}  bg="white" borderColor="gray.300" borderRadius={4} p={3}  mb={10}>
+       
+        <Flex direction="column" width={{base:"auto",md:"50%"}} border="1px solid" alignItems="center" mt={5}  bg="white" borderColor="gray.300" borderRadius={4} p={3}  mb={10}>
         <Text fontSize="20pt" mb={5}>{user?.displayName || user?.email?.split("@")[0]} 's Activity</Text>
+    <ProfilePosts/>
+        <Divider/>
 
         </Flex>
       

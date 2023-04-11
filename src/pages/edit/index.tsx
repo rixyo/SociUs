@@ -1,8 +1,10 @@
-import { auth, fireStore } from '@/Firebase/clientapp';
-import { Button, Flex,Input,Text, Textarea } from '@chakra-ui/react';
+import useSelectFile from '@/components/hooks/useSelectFile';
+import { auth, fireStore, storage } from '@/Firebase/clientapp';
+import { Button, Flex,Input,Text, Textarea,Image } from '@chakra-ui/react';
 import { addDoc, collection, updateDoc } from 'firebase/firestore';
+import { ref, uploadString, getDownloadURL } from 'firebase/storage';
 import Router, { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 type userInfo={
@@ -21,6 +23,10 @@ type userInfo={
 const index:React.FC= () => {
     const [user]=useAuthState(auth)
     const router=useRouter()
+    const { selectedFile,
+      setSelectedFile,
+      onSelectFile} =useSelectFile()
+      const selectedFileReferance=useRef<HTMLInputElement>(null)
     const [textInputs,selectedTextInputs]=useState({
         designation:"",
         company:"",
@@ -47,6 +53,10 @@ const index:React.FC= () => {
         }
         setLoading(true)
         try {
+          if(userInfo.designation.length<=0 || userInfo.company.length<=0 || userInfo.bio.length<=0 || userInfo.location.length<=0){
+            alert("Please fill all the fields")
+            return
+          }
             const docRef=await addDoc(collection(fireStore,"userInfo"),userInfo)
             if(docRef){
                 await updateDoc(docRef,{
@@ -57,6 +67,14 @@ const index:React.FC= () => {
                 await updateDoc(docRef,{
                     living:textInputs.living
                 })
+            }
+            if(selectedFile){
+              const imageRef=ref(storage,`userInfo/${docRef.id}/images`)
+              await uploadString(imageRef,selectedFile,'data_url')
+              const downLoadUrl=await getDownloadURL(imageRef)
+              await updateDoc(docRef,{
+                  imageLink:downLoadUrl
+              })
             }
             
         } catch (error) {
@@ -73,26 +91,54 @@ const index:React.FC= () => {
        <Flex width="100%" direction="column" align="center">
         <Text margin="0px auto" fontSize="30pt" fontWeight={600} color="" >Edit Profile</Text>
       
-           
-       
+        <Flex direction="column" justify="center" align="center" width="100%">
+        {selectedFile ? (
+          <>
+            <Image
+              src={selectedFile as string}
+              maxWidth="400px"
+              maxHeight="400px"
+            />
+            <Flex p={3} >
+          
+              <Button
+                variant="outline"
+                height="28px"
+                onClick={() => setSelectedFile("")}
+                ml={3}
+              >
+                Remove
+              </Button>
+            </Flex>
+          </>
+        ) : (
+          <Flex
+            justify="center"
+            align="center"
+            p={20}
+            border="1px dashed"
+            borderColor="gray.200"
+            borderRadius={4}
+            width="100%"
+          >
             <Button
               variant="outline"
               height="28px"
-              mt={2}
-              mb={2}
-            
+              onClick={() => selectedFileReferance.current?.click()}
             >
               Upload
             </Button>
-        
-            <Input
-              id="file"
+            <input
+              id="file-upload"
               type="file"
               accept="image/x-png,image/gif,image/jpeg"
               hidden
-            
-             
+              ref={selectedFileReferance}
+              onChange={ onSelectFile}
             />
+          </Flex>
+        )}
+      </Flex>
 
           
            <Flex width={{base:"auto",md:"25%"}}   direction="column" mb={5}>
@@ -218,3 +264,5 @@ const index:React.FC= () => {
     )
 }
 export default index;
+
+

@@ -1,6 +1,6 @@
 
 import { auth, fireStore } from '@/Firebase/clientapp'
-import { use, useState } from 'react'
+import {  useState } from 'react'
 import type { NextPage } from 'next'
 import { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -18,6 +18,7 @@ import useTeamData from '@/components/hooks/useTeamData'
 import { useRouter } from 'next/router'
 import Recommendation from '@/components/teams/Recommendation'
 import CreateProfilePostLink from '@/components/ProfilePost/CreateProfilePostLink'
+import ProfilePostItem from '@/components/ProfilePost/ProfilePostItem'
 
 const Home: NextPage = () => {
   const [user,loadinUser]=useAuthState(auth)
@@ -25,7 +26,6 @@ const Home: NextPage = () => {
   const [profilePostStateValue,setProfilePostStateValue]=useRecoilState(profilePostState)
   const {postStateValue,setPostStateValue,OnSelectPost,onDeletePost,onVote}=usePost()
   const router=useRouter()
-  //const teamStateValue=useRecoilValue(teamState)
   const {teamStateValue}=useTeamData()
   const [nonAuthloading,setnonAuthLoading]=useState<boolean>(false)
   const [loading,setLoading]=useState<boolean>(false)
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
     setLoading(true)
   
     try {
-      const postQuery= query(collection(fireStore,"posts"),orderBy("createdAt","desc"),limit(10))
+      const postQuery= query(collection(fireStore,"profilePosts"),orderBy("createdAt","desc"),limit(10))
       const postDocs=await getDocs(postQuery)
       const posts=postDocs.docs.map((doc)=>({
         id:doc.id, ...doc.data()
@@ -120,6 +120,21 @@ const Home: NextPage = () => {
    
       <>
     <CreateProfilePostLink/>
+      </>
+      <>
+      {!user && !loadinUser&& (
+        <>
+        {nonAuthloading?(
+          <PostLoader/>
+        ):(
+          <Stack>
+            {profilePostStateValue.posts.map(pPost=>(
+              <ProfilePostItem profilePost={pPost} isCreator={false}/>
+            ))}
+          </Stack>
+        )}
+        </>
+      )}
       </>
   
 
