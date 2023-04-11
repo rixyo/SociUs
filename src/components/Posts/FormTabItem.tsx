@@ -8,7 +8,7 @@ type TabItemProps = {
     setSelectedTab:(value:string)=>void
 };
 
-const TabItem:React.FC<TabItemProps> = ({item,selected,setSelectedTab}) => {
+const FormTabItem:React.FC<TabItemProps> = ({item,selected,setSelectedTab}) => {
     
     return (
         <Flex justify="center" align="center" flexGrow={1} padding="14px 0" cursor="pointer"
@@ -23,4 +23,4 @@ const TabItem:React.FC<TabItemProps> = ({item,selected,setSelectedTab}) => {
         </Flex>
     )
 }
-export default TabItem;
+export default FormTabItem;

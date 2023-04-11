@@ -4,7 +4,7 @@ import { use, useState } from 'react'
 import type { NextPage } from 'next'
 import { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import CreatePostLink from './Profile/ProfilePost/CreatePostLink'
+
 import { query, collection, orderBy, limit, getDocs, where } from 'firebase/firestore'
 import usePost from '@/components/hooks/usePost'
 import { Post, postVote } from '@/atoms/postAtom'
@@ -13,7 +13,7 @@ import { Box, Flex, Stack } from '@chakra-ui/react'
 import PostIteam from '@/components/Posts/PostIteam'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { ProfilePost, profilePostState } from '@/atoms/profilePostAtom'
-import PostItems from './Profile/ProfilePost/PostItems'
+
 import useTeamData from '@/components/hooks/useTeamData'
 import { useRouter } from 'next/router'
 import Recommendation from '@/components/teams/Recommendation'
@@ -115,21 +115,12 @@ const Home: NextPage = () => {
       <Flex  direction="column"
           width={{ base: "100%", md: "65%" }}
           mr={{ base: 0, md: 6 }}>
-    <CreatePostLink/>
-    {!user && !loadinUser &&(
+    
+   
       <>
-      {nonAuthloading?(
-        <PostLoader/>
-      ):(
-        <Stack>
-          {profilePostStateValue.posts.map((item)=>(
-          < PostItems post={item} creatorId={item.creatorId} />
-          ))}
-          </Stack>
-
-      )}
+    
       </>
-    )}
+  
     {user && !loadinUser &&(
       <>
       {loading?(

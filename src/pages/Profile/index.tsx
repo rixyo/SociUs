@@ -7,9 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FaUserFriends } from 'react-icons/fa';
 import { MdVerified } from 'react-icons/md';
-import CreatePostLink from './ProfilePost/CreatePostLink';
-import PostItems from './ProfilePost/PostItems';
-import Posts from './ProfilePost/Posts';
+
 
 
 const index:React.FC= () => {
@@ -108,12 +106,12 @@ const index:React.FC= () => {
               
             </Flex>
             <Divider/>
-            <CreatePostLink/>
+           
 
             <Divider/>
             <Text fontSize="20pt" mb={5}>{user?.displayName || user?.email?.split("@")[0]} 's Activity</Text>
         
-     {user&& <Posts user={user}/> }   
+    
 
       
         </Flex>

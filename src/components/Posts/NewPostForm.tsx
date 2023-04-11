@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { BiPoll } from "react-icons/bi";
 import { BsLink45Deg, BsMic } from "react-icons/bs";
 import { IoDocumentText, IoImageOutline } from "react-icons/io5";
-import TabItem from './TabItem';
+
 import TextInput from './PostForm/TextInput';
 import ImageUpload from './PostForm/ImageUpload';
 import { Post } from '@/atoms/postAtom';
@@ -15,6 +15,7 @@ import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import Poll from '../Poll/Poll';
 import PostLink from './PostForm/PostLink';
 import useSelectFile from '../hooks/useSelectFile';
+import FormTabItem from './FormTabItem';
 
 
 type NewPostFormProps = {
@@ -129,7 +130,7 @@ router.back()
         <Flex direction="column" bg="white" borderRadius={4} mt={2}>
             <Flex width="100%" key={Math.random()%100} >
                 {formTabs.map((item)=>(
-                      <TabItem  item={item} selected={item.title===selectedTab} setSelectedTab={setSelectedTab} />
+                      <FormTabItem item={item} selected={item.title===selectedTab} setSelectedTab={setSelectedTab} />
                 )
                  
                 )}

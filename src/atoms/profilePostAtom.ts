@@ -8,7 +8,7 @@ export interface ProfilePost{
     body:string,
     imageUrl?:string,
     numberOfComments:number,
-    voteStatus:number,
+    voteStatus?:number,
     createdAt: Timestamp,
     linkUrl?:string,
   
