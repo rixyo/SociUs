@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 type userInfo={
+  id?:string,
     userId:string,
     designation:string,
     company:string,
@@ -47,6 +48,11 @@ const index:React.FC= () => {
         setLoading(true)
         try {
             const docRef=await addDoc(collection(fireStore,"userInfo"),userInfo)
+            if(docRef){
+                await updateDoc(docRef,{
+                    id:docRef.id
+                })
+            }
             if(textInputs.living){
                 await updateDoc(docRef,{
                     living:textInputs.living
