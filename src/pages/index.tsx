@@ -138,8 +138,10 @@ const Home: NextPage = () => {
       </>
   
 
-      <>
-      {loading?(
+ 
+      {user && (
+        <>
+          {loading?(
         <PostLoader/>
       ):(
           <Stack>
@@ -160,7 +162,11 @@ const Home: NextPage = () => {
         </Stack>
 
       )}
-      </>
+        </>
+        
+      ) }
+     
+
    
     
     </Flex>
