@@ -94,7 +94,7 @@ const HomeDrawe:React.FC<DrawerProps> = () => {
           <DrawerHeader fontWeight={600}>Teams</DrawerHeader>
           <Flex 
           direction="row"
-          display={{ base: "none", md: "flex" }}
+         
           mr={3}
           ml={1.5}
           padding={1}

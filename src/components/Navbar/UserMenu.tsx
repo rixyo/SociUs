@@ -26,9 +26,7 @@ const UserMenu:React.FC<UserMenuProps> = ({User}) => {
     const router = useRouter();
     const Logout=async()=>{
       const success = await signOut();
-      if (success) {
-        alert('You are sign out');
-      }
+      
       resetCommunityState
       router.push('/');
       

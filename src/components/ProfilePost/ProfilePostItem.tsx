@@ -74,7 +74,7 @@ const ProfilePostItem:React.FC<ProfilePostItemProps> = ({profilePost,isCreator})
 
                <Text fontStyle="12pt" fontWeight={600} mt={3}>{profilePost.name}</Text>
                  
-                 <Text fontSize="10pt" color="gray.600" fontWeight={600} >{profilePost?.about}</Text>
+                 <Text fontSize="8pt" color="gray.600"   >{profilePost?.about}</Text>
             
      
 

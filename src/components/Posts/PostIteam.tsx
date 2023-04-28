@@ -126,7 +126,7 @@ const PostIteam:React.FC<PostIteamProps> = ({post,onSelectPost,userVoteValue,onD
                     <Text fontSize="10pt">{post?.body}</Text>
                     {post?.linkUrl &&
                    <Link href={post?.linkUrl} >
-                    <Text fontSize="13pt">{post?.linkUrl}</Text>
+                    <Text fontSize="10pt">{post?.linkUrl}</Text>
                    </Link>
                     }
 
